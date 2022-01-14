@@ -13,6 +13,21 @@
             return this.View();
         }
 
+        public IActionResult MyPage()
+        {
+            return this.View();
+        }
+
+        public IActionResult CreateProject()
+        {
+            return this.View();
+        }
+
+        public IActionResult MyProjects()
+        {
+            return this.View();
+        }
+
         public IActionResult Privacy()
         {
             return this.View();
