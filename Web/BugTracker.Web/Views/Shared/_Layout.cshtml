@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow ">
             <div class="container col-lg-12">
                 <div class="dropdown">
                     @if (this.SignInManager.IsSignedIn(this.User))
@@ -21,10 +21,10 @@
                     <a class="navbar-brand " href="#" id="dropdownNavMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@GlobalConstants.SystemName <i class="fas fa-angle-down"></i></a>
                     <ul class="dropdown-menu  dropdown-menu-xl-right mt-sm-4 " aria-labelledby="dropdownNavMenu">
                         <li class="nav-item p-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CreateProject" title="createProject">Create Project</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="CreateProject" title="createProject">Create Project</a>
                         </li>
                         <li class="nav-item p-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyProjects" title="myAccount">My account</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="MyProjects" title="myProjects">My Projects</a>
                         </li>
                     </ul>
                     }
@@ -48,7 +48,7 @@
         </nav>
     </header>
 
-    <div class="container-fluid">
+    <div>
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
