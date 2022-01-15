@@ -18,5 +18,11 @@
         {
             return this.View();
         }
+
+        public IActionResult ShowTask(string taskId)
+        {
+            object model = taskId;
+            return this.View(model);
+        }
     }
 }

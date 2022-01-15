@@ -1,0 +1,208 @@
+﻿@*@{Layout = null;}*@
+
+@model object
+@*<h1>Showing Task @Model.ToString()</h1>*@
+
+<div class="q-container">
+    <div class="q-task-header">
+        <span> &nbsp; <i class="fas fa-book-open"></i> &nbsp; USER TASKS 3259</span>
+        <form>
+            <div class="h3 q-task-header-input">
+                3259 &nbsp;
+                <input class="q-input-styles" type="text" autocomplete="off" maxlength="255" value="task name task task task lorem 20" />
+            </div>
+            <span class="h6 "> <i class="fas fa-user-circle fa-lg"></i>&nbsp;Assign to</span>
+            <select class="form-select q-form-select" aria-label="Assign to">
+                <option selected>Mihael Pavlov</option>
+                <option value="1">Ivan Ivanov</option>
+                <option value="2">Hristo Ivanov</option>
+                <option value="3">Teodor Stanoev</option>
+            </select>
+            <span class="h6 "> <i class="fas fa-circle fa-lg"></i>&nbsp;Status</span>
+
+            <select class="form-select q-form-select" aria-label="Status">
+                <option selected>New</option>
+                <option value="3">To be scheluded</option>
+                <option value="3">Scheduled</option>
+                <option value="1">In progress</option>
+                <option value="2">Closed</option>
+                <option value="3">On Hold</option>
+                <option value="3">Rejected</option>
+            </select>
+
+            <span class="h6 ">Project - Cyber Wars</span>
+
+            <span class="h6 text-muted">Updated by Hristo Ivanov : Nov 26,2021</span>
+
+            <button class="q-header-save-button" type="submit"> <i class="far fa-save"></i> Save</button>
+        </form>
+    </div>
+
+    <form>
+        <div class="q-content">
+            <div>
+                <p class="h3 q-p-header">Description</p>
+
+                <textarea id="description" name="description" rows="8" cols="100">
+             At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+            </textarea>
+            </div>
+            <div>
+                <p class="h3 q-p-header-2">Planning</p>
+
+                <p class="h5 text-muted">
+                    Priority - <strong>
+                        <input type="number" name="estimateTime" min="1" max="4" value="2">
+                    </strong>
+                </p>
+
+                <p class="h5 text-muted">Last activity - <strong>Nov 19,2021</strong></p>
+
+                <p class="h3 mt-5 q-p-header-2">Effort (Hours)</p>
+
+                <p class="h5 text-muted">
+                     Estimate Time - <strong>
+                        <input type="number" name="estimateTime" min="1" max="100" value="2">
+                    </strong>
+                </p>
+
+                <p class="h5 text-muted">
+                    Spend Time - <strong>
+                        <input type="number" name="spendTime" min="1" max="100" value="2">
+                    </strong>
+                </p>
+            </div>
+            <div>
+                <p class="h3 q-p-header-3">Activity</p>
+
+                <div class="q-activity-records">
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<style>
+    .q-content {
+        margin: 40px;
+        display: flex;
+    }
+
+        .q-content div {
+            margin-right: 50px;
+        }
+
+    #description {
+        margin-top: 10px;
+        resize: none;
+    }
+
+    .q-p-header {
+        width: 760px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #c6c6c6;
+    }
+
+    .q-p-header-2 {
+        width: 250px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #c6c6c6;
+    }
+
+    .q-p-header-3 {
+        width: 450px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #c6c6c6;
+    }
+
+    .q-activity-records{
+        border:2px solid #000000;
+        height:500px;
+        overflow-y:auto;
+    }
+
+    .q-task-header {
+        border-left: 10px solid #0094ff;
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+        .q-task-header span {
+            margin: 20px;
+        }
+
+    q-task-header-input {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        background-color: #0094ff;
+    }
+
+    .q-input-styles:focus, textarea:focus {
+        border-color: #0094ff;
+        box-shadow: 0 0 3px #1670BE;
+        outline-offset: 0px;
+        outline: none;
+    }
+
+    .q-input-styles {
+        width: 80%;
+    }
+
+    .q-container form {
+        margin: 20px;
+    }
+
+    .q-header-save-button, input[type="submit"], input[type="reset"] {
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        padding: 5px 10px;
+        font-size: 1.3rem;
+    }
+
+    .q-form-select {
+        margin-top: 20px;
+        margin-right: 5%;
+        padding: 5px;
+        width: 10%;
+    }
+</style>
+
