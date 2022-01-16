@@ -27,6 +27,7 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
+    zoom:80%;
     font-size: 14px;
 }
 
@@ -74,7 +75,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    border: 6px solid transparent;
+    border: 5px solid transparent;
     background: rgba(0,0,0,.2);
     background-color: white;
     border-radius: 10px;
@@ -82,7 +83,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    border: 6px solid transparent;
+    border: 5px solid transparent;
     background: rgba(0,0,0,.2);
     background-color:gray;
     border-radius: 10px;

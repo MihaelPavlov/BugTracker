@@ -1,15 +1,18 @@
-﻿@*@{Layout = null;}*@
-
+﻿@{
+    this.Layout = "ProjectNav";
+}
 @model object
-@*<h1>Showing Task @Model.ToString()</h1>*@
+
 
 <div class="q-container">
-    <div class="q-task-header">
-        <span> &nbsp; <i class="fas fa-book-open"></i> &nbsp; USER TASKS 3259</span>
-        <form>
+
+    <form>
+        <div class="q-task-header">
+            <span> &nbsp; <i class="fas fa-book-open"></i> &nbsp; USER TASKS 3259</span>
+
             <div class="h3 q-task-header-input">
                 3259 &nbsp;
-                <input class="q-input-styles" type="text" autocomplete="off" maxlength="255" value="task name task task task lorem 20" />
+                <input class="q-input-styles" type="text" autocomplete="off" maxlength="255" value="@Model.ToString() id Task name dasdaskdsamkdmsa" />
             </div>
             <span class="h6 "> <i class="fas fa-user-circle fa-lg"></i>&nbsp;Assign to</span>
             <select class="form-select q-form-select" aria-label="Assign to">
@@ -35,10 +38,10 @@
             <span class="h6 text-muted">Updated by Hristo Ivanov : Nov 26,2021</span>
 
             <button class="q-header-save-button" type="submit"> <i class="far fa-save"></i> Save</button>
-        </form>
-    </div>
 
-    <form>
+        </div>
+
+
         <div class="q-content">
             <div>
                 <p class="h3 q-p-header">Description</p>
@@ -46,8 +49,45 @@
                 <textarea id="description" name="description" rows="8" cols="100">
              At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
             </textarea>
+                <div class="mt-2 q-comment-container">
+                    <div>
+                        <p class="h3 q-p-header">Discussion</p>
+
+                        <textarea id="discussion" name="discussion" rows="4" cols="100" placeholder="Add a comment for this pull request">
+             
+                         </textarea>
+                    </div>
+                </div>
+                <p class="h3 q-p-header">Discussion Comments</p>
+                <div class="mt-2 q-comments">
+
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                    <div class="q-record m-3">
+                        <p class="h5">#1 Mihael Pavlov <span>commented 9 minutes ago</span></p>
+                        <p class="h5 text-muted">I've done with this task .Can we closed when someone look it.'</p>
+                    </div>
+                </div>
             </div>
-            <div>
+            <div class="mr-5">
                 <p class="h3 q-p-header-2">Planning</p>
 
                 <p class="h5 text-muted">
@@ -61,7 +101,7 @@
                 <p class="h3 mt-5 q-p-header-2">Effort (Hours)</p>
 
                 <p class="h5 text-muted">
-                     Estimate Time - <strong>
+                    Estimate Time - <strong>
                         <input type="number" name="estimateTime" min="1" max="100" value="2">
                     </strong>
                 </p>
@@ -77,19 +117,21 @@
 
                 <div class="q-activity-records">
                     <div class="q-record m-3">
-                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h4">#1 Mihael Pavlov</p>
+                        <p class="h6 text-muted">Message: Change from New to In Progress</p>
                         <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
                     </div>
                     <div class="q-record m-3">
-                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h4">#2 Mihael Pavlov</p>
+                        <p class="h6 text-muted">Message: Change from New to In Progress</p>
                         <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
                     </div>
                     <div class="q-record m-3">
-                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h4">#3 Mihael Pavlov</p>
                         <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
                     </div>
                     <div class="q-record m-3">
-                        <p class="h4">Mihael Pavlov</p>
+                        <p class="h4">#4 Mihael Pavlov</p>
                         <p class="h6 text-muted">Updated on 24.07.2021 PM</p>
                     </div>
                     <div class="q-record m-3">
@@ -111,23 +153,42 @@
                 </div>
             </div>
         </div>
+        <a asp-controller="ProjectOptions" asp-action="AllOpenTasks" class="close-btn">&times;</a>
+
+
     </form>
 
 </div>
 
 
 <style>
+    .q-container{
+        position:relative;
+    }
+    .q-comments {
+        height: 350px;
+        overflow-y: auto;
+    }
+
+    .q-comment-container {
+        margin-right: 0px;
+    }
+
     .q-content {
         margin: 40px;
         display: flex;
     }
 
         .q-content div {
-            margin-right: 50px;
+            margin-right: 10px;
         }
 
     #description {
         margin-top: 10px;
+        resize: none;
+    }
+
+    #discussion {
         resize: none;
     }
 
@@ -149,10 +210,9 @@
         border-bottom: 2px solid #c6c6c6;
     }
 
-    .q-activity-records{
-        border:2px solid #000000;
-        height:500px;
-        overflow-y:auto;
+    .q-activity-records {
+        height: 500px;
+        overflow-y: auto;
     }
 
     .q-task-header {
@@ -183,10 +243,6 @@
         width: 80%;
     }
 
-    .q-container form {
-        margin: 20px;
-    }
-
     .q-header-save-button, input[type="submit"], input[type="reset"] {
         color: inherit;
         border: none;
@@ -204,5 +260,48 @@
         padding: 5px;
         width: 10%;
     }
+
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+        border: 3px solid white;
+        background: rgba(0,0,0,.2);
+        background-color: white;
+        border-radius: 10px;
+        background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border: 3px solid gray;
+        background: rgba(0,0,0,.2);
+        background-color: gray;
+        border-radius: 7px;
+        background-clip: padding-box;
+    }
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: block;
+        width: 50px;
+        height: 50px;
+        font-size: 0;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 0;
+        right: 5%;
+        font-size: 60px;
+        color: #b6b6b6;
+    }
+
+    .close-btn:hover{
+        opacity:5;
+    }
+
 </style>
 
