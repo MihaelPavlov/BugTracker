@@ -1,0 +1,54 @@
+﻿<table  class="table table-hover table-active q-table-open-task  ">
+    <caption class="h6">
+        <a class=" q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#exampleModalCenter">
+            + Create new task
+        </a>
+    </caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "1"}))'">
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>mdo</td>
+        </tr>
+        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "2"}))'">
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>fat</td>
+        </tr>
+        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "3"}))'">
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>twitter</td>
+        </tr>
+        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "4"}))'">
+            <th scope="row">4</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>twitter</td>
+            <td>the Bird</td>
+            <td>twitter</td>
+            <td>the Bird</td>
+            <td>twitter</td>
+        </tr>
+    </tbody>
+</table>
+
+<partial name="~/Views/Shared/PartialViews/projectOptions/_CreateTaskModalPartial.cshtml" />
+

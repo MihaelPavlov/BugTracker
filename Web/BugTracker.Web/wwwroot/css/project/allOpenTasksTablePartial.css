@@ -1,0 +1,13 @@
+﻿.q-table-open-task {
+    max-width: 95%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.q-caption-create-task:hover {
+    opacity: 4;
+}
+
+.q-caption-create-task {
+    color: #a4a4a4;
+}

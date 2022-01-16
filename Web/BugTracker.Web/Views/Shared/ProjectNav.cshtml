@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/cssUtilities.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/projectNav.css" asp-append-version="true" />
+    @RenderSection("CssFile", required: false)
 </head>
 <body>
     <header>
@@ -52,35 +53,35 @@
         <nav id="sidebar">
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-exclamation-circle f-right"></i> &nbsp;  Overview</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-exclamation-circle f-right"></i> &nbsp;  Overview</a>
                 </li>
                 <li>
-                    <a asp-controller="ProjectOptions" asp-action="AllOpenTasks">&nbsp; <i class="far fa-folder-open"></i>&nbsp; All open</a>
+                    <a class="q-nav-link" asp-controller="ProjectOptions" asp-action="AllOpenTasks">&nbsp; <i class="far fa-folder-open"></i>&nbsp; All open</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Assigned to me</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Assigned to me</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Created by me</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Created by me</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Latest activity</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-tasks"></i>&nbsp;&nbsp; Latest activity</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-tasks"></i> &nbsp; Recently created</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-tasks"></i> &nbsp; Recently created</a>
                 </li>
 
                 <li>
-                    <a href="#">&nbsp; <i class="far fa-calendar-alt"></i> &nbsp;  Time sheet</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="far fa-calendar-alt"></i> &nbsp;  Time sheet</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-sticky-note"></i> &nbsp;  Notes</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-sticky-note"></i> &nbsp;  Notes</a>
                 </li>
                 <li>
-                    <a asp-controller="ProjectOptions" asp-action="Members">&nbsp; <i class="fas fa-users"></i> &nbsp;  Members</a>
+                    <a class="q-nav-link" asp-controller="ProjectOptions" asp-action="Members">&nbsp; <i class="fas fa-users"></i> &nbsp;  Members</a>
                 </li>
                 <li>
-                    <a href="#">&nbsp; <i class="fas fa-cogs"></i> &nbsp;  Project settings</a>
+                    <a class="q-nav-link" href="#">&nbsp; <i class="fas fa-cogs"></i> &nbsp;  Project settings</a>
                 </li>
 
             </ul>
@@ -92,12 +93,6 @@
             @this.RenderBody()
         </div>
     </div>
-
-    @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>

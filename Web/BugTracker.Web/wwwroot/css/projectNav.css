@@ -6,9 +6,9 @@
     color: #999;
 }
 
-a,
-a:hover,
-a:focus {
+.q-nav-link,
+.q-nav-link:hover,
+.q-nav-link:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -73,19 +73,19 @@ a:focus {
         padding: 10px;
     }
 
-    #sidebar ul li a {
+    #sidebar ul li .q-nav-link {
         padding: 10px;
         font-size: 1.1em;
         display: block;
     }
 
-        #sidebar ul li a:hover {
+        #sidebar ul li .q-nav-link:hover {
             color: #fff;
             background: #1b6ec2;
         }
 
-    #sidebar ul li.active > a,
-    a[aria-expanded="true"] {
+    #sidebar ul li.active > .q-nav-link,
+    .q-nav-link[aria-expanded="true"] {
         color: #fff;
         background: #333333;
     }

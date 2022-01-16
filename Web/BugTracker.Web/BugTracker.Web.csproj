@@ -36,4 +36,8 @@
     <ProjectReference Include="..\BugTracker.Web.Infrastructure\BugTracker.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\BugTracker.Web.ViewModels\BugTracker.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\NewFolder\" />
+  </ItemGroup>
 </Project>
