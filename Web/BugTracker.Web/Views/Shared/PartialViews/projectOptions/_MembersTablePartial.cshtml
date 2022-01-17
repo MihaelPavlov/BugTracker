@@ -1,37 +1,51 @@
-﻿<table class="table table-hover q-table-members">
+﻿<table class="table  q-table-members">
     <caption>
-        <a href="#">
+        <a class="q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#memberModal">
             + Add Member
         </a>
     </caption>
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">FirstName</th>
-            <th scope="col">LastName</th>
-            <th scope="col">DateOnAdd</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Groups</th>
+            <th scope="col">Status</th>
         </tr>
     </thead>
     <tbody>
 
         <tr>
-            <th scope="row">1</th>
-            <td>Mihael</td>
-            <td>Pavlov</td>
-            <td>27.Nov.2021</td>
+            <td>Mihael Pavlov</td>
+            <td>Pavlov@gmail.com</td>
+            <td>Member</td>
+            <td></td>
+            <td>Active</td>
+            <td> <a   data-toggle="modal" data-target="#memberModal" class="q-member-link"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-member-link"> <i class="fas fa-trash-alt"></i></a></td>
         </tr>
         <tr>
-            <th scope="row">2</th>
-            <td>Ivan</td>
-            <td>Holy</td>
-            <td>27.Nov.2021</td>
+            <td>Ivan Holy</td>
+            <td>Holy@gmail.com</td>
+            <td>Reader</td>
+            <td></td>
+            <td>Active</td>
+            <td> <a  data-toggle="modal" data-target="#memberModal" class="q-member-link"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-member-link"> <i class="fas fa-trash-alt"></i></a></td>
         </tr>
         <tr>
-            <th scope="row">3</th>
-            <td>Hristo</td>
-            <td>Ivanov</td>
-            <td>27.Nov.2021</td>
+            <td>HristoIvanov</td>
+            <td>Ivanonv@gmail.com</td>
+            <td>Project Admin</td>
+            <td>.NET Programmers</td>
+            <td>Active</td>
+            <td> <a  data-toggle="modal" data-target="#memberModal" class="q-member-link"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-member-link"> <i class="fas fa-trash-alt"></i></a></td>
         </tr>
 
     </tbody>
 </table>
+
+<style>
+ .q-member-link:hover{
+     opacity:5;
+     cursor:pointer;
+ }
+</style>

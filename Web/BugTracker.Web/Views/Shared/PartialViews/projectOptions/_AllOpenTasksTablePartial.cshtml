@@ -1,52 +1,64 @@
-﻿<table  class="table table-hover table-active q-table-open-task  ">
+﻿@{
+    var list = new List<string>();
+    list.Add("0");
+    list.Add("1");
+    list.Add("2");
+    list.Add("3");
+    list.Add("4");
+    list.Add("5");
+    list.Add("6");
+    list.Add("7");
+    list.Add("8");
+    list.Add("9");
+    list.Add("10");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+    list.Add("11");
+
+}
+<table id="example" class=" table table-hover q-table-open-task">
     <caption class="h6">
-        <a class=" q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#exampleModalCenter">
+        <a class="q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#exampleModalCenter">
             + Create new task
         </a>
     </caption>
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Type</th>
+            <th scope="col">ID</th>
+            <th scope="col">Project</th>
+            <th scope="col">TaskName</th>
+            <th scope="col">Status</th>
+            <th scope="col">Assigne to</th>
+            <th scope="col">Start date</th>
+            <th scope="col">Finish date</th>
+            <th scope="col">Create by</th>
         </tr>
     </thead>
     <tbody>
-
-        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "1"}))'">
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>mdo</td>
-        </tr>
-        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "2"}))'">
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>fat</td>
-        </tr>
-        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "3"}))'">
-            <th scope="row">3</th>
-            <td>Larry</td>
+        @foreach (var item in list)
+        {
+        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = item.ToString()}))'">
+            <td>New</td>
+            <th scope="row">@item.ToString()</th>
             <td>the Bird</td>
             <td>twitter</td>
+            <td></td>
+            <td></td>
+            <td>the Bird</td>
+            <td></td>
+            <td>twitter</td>
+            <td><a asp-controller="ProjectOptions" asp-action="ShowTask" asp-route-taskId="@item.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
         </tr>
-        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = "4"}))'">
-            <th scope="row">4</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>twitter</td>
-            <td>the Bird</td>
-            <td>twitter</td>
-            <td>the Bird</td>
-            <td>twitter</td>
-        </tr>
+        }
     </tbody>
 </table>
 

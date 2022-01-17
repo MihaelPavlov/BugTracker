@@ -19,5 +19,10 @@
         {
             return this.View();
         }
+
+        public IActionResult ProjectNotes()
+        {
+            return this.View();
+        }
     }
 }
