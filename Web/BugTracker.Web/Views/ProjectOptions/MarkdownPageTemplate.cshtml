@@ -1,0 +1,22 @@
+﻿@using Westwind.AspNetCore.Markdown;
+
+@model ReadmeViewModel
+@{
+    Layout = "ProjectNav";
+}
+
+<div class="container-sm">
+    <form method="post" asp-controller="ProjectOptions" asp-action="MarkdownPageTemplate">
+        <pre style="word-wrap:break-word; white-space:pre-wrap">
+        <textarea name="textArea" class="form-control file-editor-textarea js-blob-contents js-code-textarea " data-hotkey-scope-id="code-editor" data-allow-unchanged data-codemirror-mode="text/x-gfm" data-filename="README.md" cols="100" rows="100">
+       
+        @Html.Raw(Model.ReamdeTxt);
+
+    </textarea>
+    </pre>
+        <button type="submit">Submit</button>
+    </form>
+
+    @Html.Raw(Model.ReamdeMd)
+</div>
+
