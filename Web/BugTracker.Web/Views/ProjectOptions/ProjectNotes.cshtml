@@ -2,144 +2,26 @@
     this.Layout = "ProjectNav";
 }
 
-@{ 
-    var colors = new List<string>();
-    colors.Add("blue");
-    colors.Add("yellow");
-    colors.Add("brown");
-    colors.Add("purple");
-    colors.Add("orange");
-    colors.Add("green");
+<partial name="~/Views/Shared/PartialViews/projectOptions/Notes/_ProjectNotesNavbarPartial.cshtml" />
 
-}
+<div class="container-fluid ">
+    <div class="row q-container-notes ">
+        @for (int i = 0; i < 14; i++)
+        {
+            <partial name="~/Views/Shared/PartialViews/projectOptions/Notes/_NoteComponentPartial.cshtml" />
+        }
+    </div>
+</div>
+
 <a class="q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#noteModal">+ create new notes</a>
-<div class="container bootstrap snippets bootdeys">
-    <div class="row">
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="blue" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Blue Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="green" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Green Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="yellow" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Yellow Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="brown" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Brown Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="purple" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Purple Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 content-card">
-            <div class="card-big-shadow">
-                <div class="card card-just-text" data-background="color" data-color="orange" data-radius="none">
-                    <div class="content">
-                        <h6 class="category">Best cards</h6>
-                        <h4 class="title"><a href="#">Orange Card</a></h4>
-                        <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
-                    </div>
-                </div> <!-- end card -->
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="noteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createNoteModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <form class="modal-content">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 q-modal-content-card">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="card card-just-text" data-background="color" data-color="@(colors[new Random().Next(colors.Count)])" data-radius="none">
-                        <div class="content q-modal-content-card">
-                            <div class="category">
-                                <label class="h6" for="inputColor">Card color</label>
-                                <select id="inputColor" class="form-control">
-                                    <option value="" disabled selected>Color...</option>
-                                    <option>red</option>
-                                    <option>blue</option>
-                                    <option>green</option>
-                                    <option>brown</option>
-                                    <option>purple</option>
-                                    <option>yellow</option>
-                                </select>
-                                <label class="h6" for="inputType">Type</label>
-                                <select id="inputType" class="form-control">
-                                    <option value="" disabled selected>Type card</option>
-                                    <option>Remember</option>
-                                    <option>Meeting</option>
-                                    <option>Funny Fact</option>
-                                </select>
-                            </div>
-                            <div class="title">
-                                <label class="h6" for="inputHeader">Header</label>
-                                <input type="text" class="form-control" id="inputHeader" placeholder="Header of card">
-                            </div>
-                            <div class="description">
-                                <label class="h6 d-block" for="inputDescription">Description</label>
-
-                                <textarea id="inputDescription" class="q-modal-description" cols="20" rows="5"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Add Note</button>
-
-                        </div>
-                    </div> <!-- end card -->
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
+<partial name="~/Views/Shared/PartialViews/projectOptions//Notes/_AddNoteModalPartial.cshtml" />
 
 <style>
+
+    .q-container-notes {
+        margin: 0 auto;
+    }
+
     #noteModal .modal-content {
         background-color: rgba(0,0,0,0);
         border: none;

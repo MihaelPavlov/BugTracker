@@ -1,0 +1,45 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item mr-3">
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop2" type="button" class="btn btn-success pr-5 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus"></i> Create
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                            <a class="dropdown-item btn" data-toggle="modal" data-target="#exampleModalCenter">
+                                Create New Task
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item mr-3">
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary  pr-5 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter"></i> Filter by
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#">Id</a>
+                            <a class="dropdown-item" href="#">Priority</a>
+                            <a class="dropdown-item" href="#">Status</a>
+                            <a class="dropdown-item" href="#">Type</a>
+                            <a class="dropdown-item" href="#">Created Date</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" data-toggle="modal" data-target="#tableSettingsModal"><i class="fas fa-cog"></i> &nbsp;Table settings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<partial name="~/Views/Shared/PartialViews/projectOptions/AllOpenTasks/_TableSettingsModalPartial.cshtml" />
+
+<partial name="~/Views/Shared/PartialViews/projectOptions/AllOpenTasks/_CreateTaskModalPartial.cshtml" />

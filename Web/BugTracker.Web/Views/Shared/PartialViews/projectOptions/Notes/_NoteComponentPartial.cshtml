@@ -1,0 +1,22 @@
+﻿@{
+    var colors = new List<string>();
+    colors.Add("blue");
+    colors.Add("yellow");
+    colors.Add("brown");
+    colors.Add("purple");
+    colors.Add("orange");
+    colors.Add("green");
+
+}
+
+<div class="col-md-2 content-card">
+    <div class="card-big-shadow">
+        <div class="card card-just-text" data-background="color" data-color="@(colors[new Random().Next(colors.Count)])" data-radius="none">
+            <div class="content">
+                <h6 class="category">Best cards</h6>
+                <h4 class="title"><a href="#">Purple Card</a></h4>
+                <p class="description">What all of these have in common is that they're pulling information out of the app or the service and making it relevant to the moment. </p>
+            </div>
+        </div> <!-- end card -->
+    </div>
+</div>
