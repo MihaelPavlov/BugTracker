@@ -5,14 +5,14 @@
 <div class="dropdown">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <button class="btn btn-secondary rounded-circle p-sm-2 ml-4 m-2 fonts border h5 bg-warning " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary rounded-circle p-sm-2 ml-4 m-2 fonts border-dark h5 bg-light " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="nav-link text-dark">@this.User.Identity.Name.First().ToString().ToUpper()</span>
         </button>
     }
 
     @if (!this.SignInManager.IsSignedIn(this.User))
     {
-        <button class="btn btn-secondary   p-sm-2 ml-4 m-2 fonts border h5 bg-warning " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary p-sm-2 ml-4 m-2 fonts border h5 bg-info " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span>Sign Up</span>
         </button>
     }
@@ -40,7 +40,7 @@
         else
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                <a class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Register">Register</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
