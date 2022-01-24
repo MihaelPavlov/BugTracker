@@ -20,7 +20,7 @@ If you choose:
 3. Contributors - people who are allowed to contribute fully to the project code.
 4. Readers - people who are allowed only to view project information, work items, and others but not modify them.
 5. Can create your own roles for a particular project and decide what permissions to give them. Can be created only by the CEO.
-Organization level permissions (Options) : 
+Organization level permissions (Options): 
 General:
 Service:
 Notes:
