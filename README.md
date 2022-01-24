@@ -7,7 +7,6 @@ https://trello.com/b/TYidZAk1/bugtracker
 
 ### Registration
 When you register you need to select **register as a user** or **register as a CEO of a company**.
-If you choose: 
 
 **User** - you will have to choose which company you will work for. We have a field with all registered companies in our platform from which you will have to choose your company. After completing the registration you will need to wait for your approval from the company. We do this to protect against fake users
 (Imagine registering as a user for a company and the company has not hired you at all. This allows the CEO of the company to approve those users only he knows about.)
@@ -20,6 +19,7 @@ If you choose:
 3. Contributors - people who are allowed to contribute fully to the project code.
 4. Readers - people who are allowed only to view project information, work items, and others but not modify them.
 5. Can create your own roles for a particular project and decide what permissions to give them. Can be created only by the CEO.
+
 Organization level permissions (Options): 
 General:
 Service:
