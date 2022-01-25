@@ -1,72 +1,73 @@
-# IPED Digital Forensic Tool
 
-IPED is an open source software that can be used to process and analyze digital evidence, often seized at crime scenes by law enforcement or in a corporate investigation by private examiners.
+            
+            
+# ASP.NET Core BugTracker
 
-## Introduction
+# Trello Plan
+https://trello.com/b/TYidZAk1/bugtracker
 
-IPED - Digital Evidence Processor and Indexer (translated from Portuguese) is a tool implemented in java and originally and still developed by digital forensic experts from Brazilian Federal Police since 2012. Although it was always open source, only in 2019 its code was officially published.
+# Project Description
 
-Since the beginning, the goal of the tool was efficient data processing and stability. Some key characteristics of the tool are:
+### Registration
+When you register you need to select **register as a user** or **register as a CEO of a company**.
 
-- Command line data processing for batch case creation
-- Multiplatform support, tested on Windows and Linux systems
-- Portable cases without installation, you can run them from removable drives
-- Integrated and intuitive analysis interface
-- High multithread performance and support for large cases: up to 135 million items as of 12/12/2019
+**User** - you will have to choose which company you will work for. We have a field with all registered companies in our platform from which you will have to choose your company. After completing the registration you will need to wait for your approval from the company. We do this to protect against fake users
+(Imagine registering as a user for a company and the company has not hired you at all. This allows the CEO of the company to approve those users only he knows about.)
 
-Currently IPED uses the [Sleuthkit Library](https://github.com/sleuthkit/sleuthkit) only to decode disk images and file systems, so the same image formats are supported: RAW/DD, E01, ISO9660, AFF, VHD, VMDK. Also there is support for UDF(ISO), AD1 (AccessData) and UFDR (Cellebrite) formats. Recently support for APFS was added, thanks to BlackBag implementation for Sleuthkit.
+**Register as a CEO of a company** - you get the administration role of CEO. You will have all permission over your company and projects.
 
-If you are new to the tool, please refer to the [Beginner's Start Guide](https://github.com/lfcnassif/IPED/wiki/Beginner's-Start-Guide).
+### Roles that we have!
+1. Build Administrators or CEO(chief executive officer) - Role for the person that registers the company. 
+2. Manager - Role for the person who is assigned to be the head of the project. That role can be assigned only by the CEO of the company.
+3. Contributors - people who are allowed to contribute fully to the project code.
+4. Readers - people who are allowed only to view project information, work items, and others but not modify them.
+5. Can create your own roles for a particular project and decide what permissions to give them. Can be created only by the CEO.
 
-## Building
+Organization level permissions (Options): 
+General:
+Service:
+Notes:
+Tasks:
 
-To build from source, you need git, maven and Java JDK 11 + JavaFX (e.g. Liberica OpenJDK 11 Full JDK) installed. Set JAVA_HOME environment var to your java 11 installation folder, then run:
-```
-git clone https://github.com/sepinf-inc/IPED.git
-cd IPED
-mvn clean install
-```
-It will generate a snapshot version of IPED in target/release folder.
+### Organization level permissions:
 
-On Linux you also must build The Sleuthkit and additional dependencies. Please refer to [Linux Section](https://github.com/sepinf-inc/IPED/wiki/Linux)
+**General:**
+1. Create a new project - Only the CEO can create a new project.
+Every project can have one Manager of the project.
+2. Add members to the project- Can be done only by the CEO or Manager
+3. Create a new team for the project - Only the CEO and Manager can create a new team for the project.  Can be Core Team, Bootcamp Interns.
+Every team will have separated tasks, its own channels for communication, and its own notes.
+4. Change project settings - only the CEO and Manager can change the project settings.
+5. Delete project  - Only the CEO that registers the company has that permission.
+6. Delete team - Only the CEO and Manager have that permission.
+7. Edit - Can add users and groups and edit organization-level permissions for users and groups. Can be done by the Manager of the project.
+8. View Control - users assigned to а specific team will have a reader role over other team's view. Except on the communication part. Task comments, discussion comments, and conversation.
+Only the CEO and Manager can edit information in all teams.
 
-If you want to contribute to the project, refer to [Contributing](https://github.com/lfcnassif/IPED/wiki/Contributing)
+**Service:**
+1. Trigger events - can be created by everyone in the specific project including the CEO and Manager. Can be used about meetings, messages that everybody must-see, and others. Modal with the message stay till the user closed it.
 
-## Features
+**Project Overview:**
+1. Every project has a readme.md and can be edited only by the CEO and Manager. 
 
-Some of IPED several features are listed below:
+**Notes:**
+1. Create note - can be created by everyone except the reader.
+Created Note will be automatically removed after one week. 
+CEO and Manager have administration permission to see all notes!
 
-- Supported hashes: md5, sha-1, sha-256, sha-512 and edonkey. PhotoDNA is also available for law enforcement (please contact iped@dpf.gov.br)
-- Fast hash deduplication, NIST NSRL, ProjectVIC and LED hashset lookup
-- Signature analysis
-- Categorization by file type and properties
-- Recursive container expansion of dozens of file formats
-- Image and video gallery for hundreds of formats
-- Georeferencing of GPS data (needs Google Maps Javascript API key)
-- Regex searches with optional script validation for credit cards, emails, urls, money values, bitcoin, ethereum, ripple wallets...
-- Embedded hex, unicode text, metadata and native viewers
-- File content and metadata indexing and fast searching, including unknown files and unallocated space
-- Efficient data carving engine (takes < 10% processing time) that scans much more than unallocated, with support for +40 file formats, including videos, extensible by scripting
-- Optical Character Recognition powered by tesseract 4
-- Encryption detection for known formats and using entropy test
-- Processing profiles: forensic, pedo (csam), triage, fastmode (preview) and blind (for automatic data extraction)
-- Detection for +70 languages
-- Named Entity Recognition (needs Stanford CoreNLP models to be downloaded)
-- Customizable filters based on any file metadata
-- Similar document search with configurable threshold
-- Similar image search, using internal or external image
-- Powerful file grouping (clustering) based on ANY metadata
-- Support for multicases up to 135 million items
-- Extensible with javascript and python (including cpython extensions) scripts
-- External command line tools integration for file decoding
-- Browser history for Edge, Firefox, Chrome and Safari
-- Custom parsers for Emule, Shareaza, Ares, WhatsApp, Skype, Telegram, Bittorrent, ActivitiesCache, and more...
-- Fast nudity detection for images and videos using random forests algorithm (thanks to its author Wladimir Leite)
-- Nudity detection using Yahoo open-nsfw deeplearning model (needs keras and jep)
-- Audio Transcription, implementations with Azure and Google Cloud services
-- Graph analysis for communications (calls, emails, instant messages...)
-- Stable processing with out-of-process file system decoding and file parsing
-- Resuming or restarting of stopped or aborted processing (--continue/--restart options)
-- Web API for searching remote cases, get file metadata, raw content, decoded text, thumbnails and posting bookmarks
-- Creation of bookmarks/tags for interesting data
-- HTML, CSV reports and portable cases with tagged data
+**Tasks(work items):** 
+1. Create new tasks - can be created by everyone who is assigned to this particular project except the reader.
+CEO and Manager have permission to create a task and decide to assign it to a specific team.
+Users in particular teams can only create tasks for their teams.
+2. Task types - Task, Bug, Feature, if you don't select type, the default will be New.
+3. Task Assign - can be assigned to the user who needs to complete it.
+Who can assign a task - everyone except the reader.
+4. Task status - default new, can be changed by everyone except by the reader.
+5. Task planning, effort(hours) - can be changed only by the CEO, Manager, or the creator of the task.
+;
+
+        ;
+
+        ;
+
+        

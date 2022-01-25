@@ -44,8 +44,6 @@
 
         public string ReturnUrl { get; set; }
 
-        public bool WantToRegisterAsCompany { get; set; }
-
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
@@ -66,26 +64,19 @@
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [Display(Name = "Company")]
-            public string Company { get; set; }
-
             // Required if you create a company.
-
+            [Required]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
             [Display(Name = "Company name")]
             public string CompanyName { get; set; }
 
+            [Required]
             [Display(Name = "Date Of establishment of the company")]
             public string DateOfEstablishment { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null, bool registerCompany = false)
+        public async Task OnGetAsync(string returnUrl = null)
         {
-            if (registerCompany)
-            {
-                this.WantToRegisterAsCompany = registerCompany;
-            }
-
             this.ReturnUrl = returnUrl;
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -105,7 +96,7 @@
 
                     var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
+                    var callbackUrl = this.Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },

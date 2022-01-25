@@ -1,6 +1,8 @@
 ﻿namespace BugTracker.Web.Controllers
 {
+    using System;
     using System.IO;
+
     using BugTracker.Web.ViewModels;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -8,14 +10,14 @@
 
     public class ProjectOptionsController : Controller
     {
-        private IWebHostEnvironment _hostEnvironment;
+        private IWebHostEnvironment hostEnvironment;
 
         public ProjectOptionsController(IWebHostEnvironment environment)
         {
-            this._hostEnvironment = environment;
+            this.hostEnvironment = environment;
         }
 
-        public IActionResult AllOpenTasks()
+        public IActionResult WorkItems()
         {
             return this.View();
         }
@@ -36,14 +38,15 @@
             return this.View();
         }
 
-        public IActionResult MarkdownPageTemplate()
+        [HttpGet]
+        public IActionResult Overview()
         {
             var model = new ReadmeViewModel();
 
             try
             {
-                string pathTxt = Path.Combine(this._hostEnvironment.WebRootPath, "README.txt");
-                string pathMd = Path.Combine(this._hostEnvironment.WebRootPath, "README.md");
+                string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
+                string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
                 var txt2 = System.IO.File.ReadAllText(pathTxt);
                 var md2 = Markdown.ParseFromUrl(pathMd);
 
@@ -51,15 +54,15 @@
                 model.ReamdeMd = md2;
                 return this.View(model);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
 
                 using (FileStream writer = System.IO.File.Create("wwwroot/README.txt"))
                 {
                 }
 
-                string newCreatedPathTxt = Path.Combine(this._hostEnvironment.WebRootPath, "README.txt");
-                string newCreatedPathMd = Path.Combine(this._hostEnvironment.WebRootPath, "README.md");
+                string newCreatedPathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
+                string newCreatedPathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
 
                 string txt = System.IO.File.ReadAllText(newCreatedPathTxt);
                 var md = Markdown.ParseFromUrl(newCreatedPathMd);
@@ -69,15 +72,29 @@
 
                 return this.View(model);
             }
+        }
 
+        [HttpGet]
+        public IActionResult EditOverview()
+        {
+            var model = new ReadmeViewModel();
+
+            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
+            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
+            var txt2 = System.IO.File.ReadAllText(pathTxt);
+            var md2 = Markdown.ParseFromUrl(pathMd);
+
+            model.ReamdeTxt = txt2;
+            model.ReamdeMd = md2;
+            return this.View(model);
         }
 
         [HttpPost]
-        public IActionResult MarkdownPageTemplate(string textArea)
+        public IActionResult EditOverview(string textArea)
         {
-            string pathTxt = Path.Combine(this._hostEnvironment.WebRootPath, "README.txt");
+            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
 
-            string pathMd = Path.Combine(this._hostEnvironment.WebRootPath, "README.md");
+            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
 
             using (var writer = System.IO.File.CreateText(pathMd))
             {
@@ -98,7 +115,7 @@
 
             model.ReamdeTxt = txt;
             model.ReamdeMd = md;
-            return this.View("MarkdownPageTemplate", model);
+            return this.View("Overview", model);
         }
     }
 }
