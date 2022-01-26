@@ -1,6 +1,7 @@
 
             
             
+            
 # ASP.NET Core BugTracker
 
 # Trello Plan
@@ -65,6 +66,8 @@ Who can assign a task - everyone except the reader.
 4. Task status - default new, can be changed by everyone except by the reader.
 5. Task planning, effort(hours) - can be changed only by the CEO, Manager, or the creator of the task.
 ;
+
+        ;
 
         ;
 

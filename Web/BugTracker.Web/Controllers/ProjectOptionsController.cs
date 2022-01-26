@@ -38,6 +38,11 @@
             return this.View();
         }
 
+        public IActionResult Channels()
+        {
+            return this.View();
+        }
+
         [HttpGet]
         public IActionResult Overview()
         {
