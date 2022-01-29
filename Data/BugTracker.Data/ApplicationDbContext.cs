@@ -24,6 +24,14 @@
         {
         }
 
+        public DbSet<Owner> Owners { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<WorkItem> WorkItems { get; set; }
+
+        public DbSet<Project> Projects { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -72,6 +80,14 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<WorkItem>(entity =>
+            {
+                entity.HasOne(x => x.Project)
+                .WithMany(x => x.WorkItems)
+                .HasForeignKey(x => x.ProjectId)
+                .OnDelete(DeleteBehavior.NoAction);
+            });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
@@ -104,6 +120,7 @@
                     entity.ModifiedOn = DateTime.UtcNow;
                 }
             }
+
         }
     }
 }
