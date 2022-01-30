@@ -28,6 +28,8 @@
 
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<EmployeeOwner> EmployeeOwners { get; set; }
+
         public DbSet<WorkItem> WorkItems { get; set; }
 
         public DbSet<Project> Projects { get; set; }
@@ -88,6 +90,19 @@
                 .HasForeignKey(x => x.ProjectId)
                 .OnDelete(DeleteBehavior.NoAction);
             });
+
+            builder.Entity<EmployeeOwner>()
+           .HasKey(x => new { x.OwnerId, x.EmployeeId });
+
+            builder.Entity<EmployeeOwner>()
+                .HasOne(x => x.Employee)
+                .WithMany(x => x.Owners)
+                .HasForeignKey(x => x.EmployeeId);
+
+            builder.Entity<EmployeeOwner>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.Employees)
+                .HasForeignKey(x => x.OwnerId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

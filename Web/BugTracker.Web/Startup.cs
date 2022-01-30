@@ -9,6 +9,7 @@
     using BugTracker.Data.Repositories;
     using BugTracker.Data.Seeding;
     using BugTracker.Services.Data;
+    using BugTracker.Services.Data.Interfaces;
     using BugTracker.Services.Mapping;
     using BugTracker.Services.Messaging;
     using BugTracker.Web.ViewModels;
@@ -56,63 +57,6 @@
                     }).AddRazorRuntimeCompilation();
 
 
-            //Test
-
-            services.AddMarkdown(config =>
-            {
-                // optional Tag BlackList
-                config.HtmlTagBlackList = "script|iframe|object|embed|form"; // default
-
-                // Simplest: Use all default settings
-                var folderConfig = config.AddMarkdownProcessingFolder("/docs/", "~/Pages/__MarkdownPageTemplate.cshtml");
-
-                // Customized Configuration: Set FolderConfiguration options
-                folderConfig = config.AddMarkdownProcessingFolder("/posts/", "~/Pages/__MarkdownPageTemplate.cshtml");
-
-                // Optionally strip script/iframe/form/object/embed tags ++
-                folderConfig.SanitizeHtml = false;  //  default
-
-                // Optional configuration settings
-                folderConfig.ProcessExtensionlessUrls = true;  // default
-                folderConfig.ProcessMdFiles = true; // default
-
-                // Optional pre-processing - with filled model
-                folderConfig.PreProcess = (model, controller) =>
-                {
-                    // controller.ViewBag.Model = new MyCustomModel();
-                };
-
-                // folderConfig.BasePath = "https://github.com/RickStrahl/Westwind.AspNetCore.Markdow/raw/master";
-
-                // Create your own IMarkdownParserFactory and IMarkdownParser implementation
-                // to replace the default Markdown Processing
-                //config.MarkdownParserFactory = new CustomMarkdownParserFactory();                 
-
-                // optional custom MarkdigPipeline (using MarkDig; for extension methods)
-                config.ConfigureMarkdigPipeline = builder =>
-                {
-                    builder.UseEmphasisExtras(Markdig.Extensions.EmphasisExtras.EmphasisExtraOptions.Default)
-                        .UsePipeTables()
-                        .UseGridTables()
-                        .UseAutoIdentifiers(AutoIdentifierOptions.GitHub) // Headers get id="name" 
-                        .UseAutoLinks() // URLs are parsed into anchors
-                        .UseAbbreviations()
-                        .UseYamlFrontMatter()
-                        .UseEmojiAndSmiley(true)
-                        .UseListExtras()
-                        .UseFigures()
-                        .UseTaskLists()
-                        .UseCustomContainers()
-                        //.DisableHtml()   // renders HTML tags as text including script
-                        .UseGenericAttributes();
-                };
-            });
-
-            services.AddControllersWithViews()
-                 .AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly);
-
-            //End Test
-
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -122,6 +66,8 @@
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+            services.AddScoped(typeof(IAccountsService), typeof(AccountsService));
+            services.AddScoped(typeof(IOwnerService), typeof(OwnerService));
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
@@ -155,9 +101,6 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            //For markdown
-            app.UseMarkdown();
 
             app.UseRouting();
 

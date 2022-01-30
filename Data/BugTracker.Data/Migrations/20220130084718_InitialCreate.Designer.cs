@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220129204845_CreateModels")]
-    partial class CreateModels
+    [Migration("20220130084718_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,6 +176,29 @@ namespace BugTracker.Data.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("BugTracker.Data.Models.EmployeeOwner", b =>
+                {
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("OwnerId", "EmployeeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("EmployeeOwners");
+                });
+
             modelBuilder.Entity("BugTracker.Data.Models.Owner", b =>
                 {
                     b.Property<string>("Id")
@@ -312,21 +335,6 @@ namespace BugTracker.Data.Migrations
                     b.ToTable("WorkItems");
                 });
 
-            modelBuilder.Entity("EmployeeOwner", b =>
-                {
-                    b.Property<string>("EmployeesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OwnersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("EmployeesId", "OwnersId");
-
-                    b.HasIndex("OwnersId");
-
-                    b.ToTable("EmployeeOwner");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -446,6 +454,25 @@ namespace BugTracker.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BugTracker.Data.Models.EmployeeOwner", b =>
+                {
+                    b.HasOne("BugTracker.Data.Models.Employee", "Employee")
+                        .WithMany("Owners")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BugTracker.Data.Models.Owner", "Owner")
+                        .WithMany("Employees")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("BugTracker.Data.Models.Owner", b =>
                 {
                     b.HasOne("BugTracker.Data.Models.ApplicationUser", "User")
@@ -486,21 +513,6 @@ namespace BugTracker.Data.Migrations
                     b.Navigation("CreateByEmployee");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("EmployeeOwner", b =>
-                {
-                    b.HasOne("BugTracker.Data.Models.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BugTracker.Data.Models.Owner", null)
-                        .WithMany()
-                        .HasForeignKey("OwnersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -561,6 +573,16 @@ namespace BugTracker.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("BugTracker.Data.Models.Employee", b =>
+                {
+                    b.Navigation("Owners");
+                });
+
+            modelBuilder.Entity("BugTracker.Data.Models.Owner", b =>
+                {
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("BugTracker.Data.Models.Project", b =>

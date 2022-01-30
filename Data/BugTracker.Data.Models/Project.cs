@@ -16,8 +16,8 @@
 
         public Owner Owner { get; set; }
 
-        public virtual IEnumerable<Employee> Members { get; set; }
+        public virtual ICollection<Employee> Members { get; set; }
 
-        public virtual IEnumerable<WorkItem> WorkItems { get; set; }
+        public virtual ICollection<WorkItem> WorkItems { get; set; }
     }
 }

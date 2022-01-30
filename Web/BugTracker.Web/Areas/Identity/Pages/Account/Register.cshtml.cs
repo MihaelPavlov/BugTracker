@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Models;
+    using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.Infrastructure;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -26,17 +27,20 @@
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IAccountsService accountsService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IAccountsService accountsService)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._logger = logger;
             this._emailSender = emailSender;
+            this.accountsService = accountsService;
         }
 
         [BindProperty]
@@ -92,6 +96,8 @@
 
                 if (result.Succeeded)
                 {
+                    await this.accountsService.RegisterOwner(user.Id);
+
                     this._logger.LogInformation("User created a new account with password.");
 
                     var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);

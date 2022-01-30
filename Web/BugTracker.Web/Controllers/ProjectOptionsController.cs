@@ -2,7 +2,10 @@
 {
     using System;
     using System.IO;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
+    using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -10,11 +13,18 @@
 
     public class ProjectOptionsController : Controller
     {
+        private readonly IAccountsService accountsService;
+        private readonly IOwnerService ownerService;
         private IWebHostEnvironment hostEnvironment;
 
-        public ProjectOptionsController(IWebHostEnvironment environment)
+        public ProjectOptionsController(
+            IWebHostEnvironment environment,
+            IAccountsService accountsService,
+            IOwnerService ownerService)
         {
             this.hostEnvironment = environment;
+            this.accountsService = accountsService;
+            this.ownerService = ownerService;
         }
 
         public IActionResult WorkItems()
@@ -95,6 +105,16 @@
         }
 
         [HttpPost]
+        public async Task<IActionResult> AddMember(string email)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ownerId = await this.ownerService.GetOwnerId(userId);
+            await this.accountsService.RegisterEmployee(ownerId, email, "test");
+
+            return this.RedirectToAction("WorkItems");
+        }
+
+        [HttpPost]
         public IActionResult EditOverview(string textArea)
         {
             string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
@@ -113,7 +133,6 @@
                 writer.Dispose();
             }
 
-
             var model = new ReadmeViewModel();
             string txt = System.IO.File.ReadAllText(pathTxt);
             var md = Markdown.ParseFromUrl(pathMd);
@@ -122,5 +141,7 @@
             model.ReamdeMd = md;
             return this.View("Overview", model);
         }
+
+
     }
 }

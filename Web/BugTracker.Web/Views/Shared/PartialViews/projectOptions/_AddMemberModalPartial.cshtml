@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" asp-controller="ProjectOptions" asp-action="AddMember">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="inputName">Name</label>
@@ -17,14 +17,14 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputEmail">Email</label>
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputRole">Roles</label>
                             <select id="inputRole" class="form-control">
-                                <option value="" disabled selected>Role...</option>
+                                <option  disabled selected>Role...</option>
                                 <option>Member</option>
                                 <option>Reader</option>
                                 <option>Project Admin</option>
@@ -39,7 +39,7 @@
                         <div class="form-group col-md-6">
                             <label for="inputStatus">Status</label>
                             <select id="inputStatus" class="form-control">
-                                <option value="" disabled selected>Status...</option>
+                                <option  disabled selected>Status...</option>
                                 <option>Active</option>
                                 <option>UnActive</option>
                                 <option>Vacation</option>

@@ -11,7 +11,7 @@
         public Owner()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Employees = new HashSet<Employee>();
+            this.Employees = new HashSet<EmployeeOwner>();
         }
 
         [Required]
@@ -19,6 +19,6 @@
 
         public ApplicationUser User { get; set; }
 
-        public virtual IEnumerable<Employee> Employees { get; set; }
+        public virtual ICollection<EmployeeOwner> Employees { get; set; }
     }
 }
