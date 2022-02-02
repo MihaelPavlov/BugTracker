@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BugTracker.Common\BugTracker.Common.csproj" />
+    <ProjectReference Include="..\..\BugTracker.Data.Enums\BugTracker.Data.Enums.csproj" />
     <ProjectReference Include="..\..\Data\BugTracker.Data.Common\BugTracker.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\BugTracker.Data.Models\BugTracker.Data.Models.csproj" />
     <ProjectReference Include="..\BugTracker.Services.Mapping\BugTracker.Services.Mapping.csproj" />

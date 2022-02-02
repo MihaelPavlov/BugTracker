@@ -8,6 +8,7 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
+    using BugTracker.Common;
     using BugTracker.Data.Models;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.Infrastructure;
@@ -96,6 +97,8 @@
 
                 if (result.Succeeded)
                 {
+                    await this._userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
                     await this.accountsService.RegisterOwner(user.Id);
 
                     this._logger.LogInformation("User created a new account with password.");

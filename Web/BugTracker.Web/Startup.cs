@@ -13,8 +13,7 @@
     using BugTracker.Services.Mapping;
     using BugTracker.Services.Messaging;
     using BugTracker.Web.ViewModels;
-    using Markdig;
-    using Markdig.Extensions.AutoIdentifiers;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -23,7 +22,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Westwind.AspNetCore.Markdown;
 
     public class Startup
     {

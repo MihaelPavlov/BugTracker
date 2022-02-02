@@ -5,6 +5,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using BugTracker.Data.Enums;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
     using Microsoft.AspNetCore.Hosting;
@@ -105,11 +106,11 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMember(string email)
+        public async Task<IActionResult> AddMember(string email, MemberStatus status, string role)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var ownerId = await this.ownerService.GetOwnerId(userId);
-            await this.accountsService.RegisterEmployee(ownerId, email, "test");
+            await this.accountsService.RegisterEmployee(ownerId, email, "test", status, role);
 
             return this.RedirectToAction("WorkItems");
         }
@@ -141,7 +142,5 @@
             model.ReamdeMd = md;
             return this.View("Overview", model);
         }
-
-
     }
 }

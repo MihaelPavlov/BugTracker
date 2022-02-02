@@ -1,4 +1,6 @@
-﻿<!-- Modal -->
+﻿@using BugTracker.Data.Enums
+
+<!-- Modal -->
 <div id="memberModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -23,11 +25,11 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputRole">Roles</label>
-                            <select id="inputRole" class="form-control">
-                                <option  disabled selected>Role...</option>
-                                <option>Member</option>
-                                <option>Reader</option>
-                                <option>Project Admin</option>
+                            <select name="role" id="inputRole" class="form-control">
+                                <option disabled selected>Role...</option>
+                                <option value="@GlobalConstants.ManagerRoleName">@GlobalConstants.ManagerRoleName</option>
+                                <option value="@GlobalConstants.ContributorsRoleName">@GlobalConstants.ContributorsRoleName</option>
+                                <option value="@GlobalConstants.ReaderRoleName">@GlobalConstants.ReaderRoleName</option>
                             </select>
                         </div>
                     </div>
@@ -38,12 +40,12 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputStatus">Status</label>
-                            <select id="inputStatus" class="form-control">
-                                <option  disabled selected>Status...</option>
-                                <option>Active</option>
-                                <option>UnActive</option>
-                                <option>Vacation</option>
-                                <option>Leave</option>
+                            <select name="status" id="inputStatus" class="form-control">
+                                <option disabled selected>Status...</option>
+                                <option value="@MemberStatus.Active">Active</option>
+                                <option value="@MemberStatus.Inactive">Inactive</option>
+                                <option value="@MemberStatus.Vacation">Vacation</option>
+                                <option value="@MemberStatus.DepartFrom">Leave</option>
                             </select>
                         </div>
 

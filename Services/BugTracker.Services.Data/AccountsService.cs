@@ -1,11 +1,11 @@
 ﻿namespace BugTracker.Services.Data
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
+    using BugTracker.Common;
     using BugTracker.Data.Common.Repositories;
+    using BugTracker.Data.Enums;
     using BugTracker.Data.Models;
     using BugTracker.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Identity;
@@ -29,14 +29,16 @@
             this.userManager = userManager;
         }
 
-        public async Task RegisterEmployee(string ownerId, string email, string projectId)
+        public async Task RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role)
         {
             var applicationUser = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
             };
-            var result = await this.userManager.CreateAsync(applicationUser,"123456");
+
+            var result = await this.userManager.CreateAsync(applicationUser, this.GeneratePassword(10));
+            await this.userManager.AddToRoleAsync(applicationUser, role);
 
             var employee = new Employee
             {
@@ -70,6 +72,19 @@
 
             await this.ownerReposiotry.AddAsync(owner);
             await this.ownerReposiotry.SaveChangesAsync();
+        }
+
+        private string GeneratePassword(int length)
+        {
+            string password = Guid.NewGuid().ToString();
+            password = password.Replace("-", string.Empty);
+
+            if (length <= 0 || length > password.Length)
+            {
+                throw new ArgumentException("Length must be between 1 and " + password.Length);
+            }
+
+            return password.Substring(0, length);
         }
     }
 }
