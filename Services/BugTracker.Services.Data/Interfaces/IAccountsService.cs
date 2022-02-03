@@ -9,5 +9,7 @@
         Task RegisterOwner(string userId);
 
         Task RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role);
+
+        Task AddEmployee(string ownerId, string email, string projectId, MemberStatus status);
     }
 }

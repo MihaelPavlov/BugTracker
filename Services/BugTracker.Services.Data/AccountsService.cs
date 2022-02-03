@@ -9,6 +9,7 @@
     using BugTracker.Data.Models;
     using BugTracker.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class AccountsService : IAccountsService
     {
@@ -16,17 +17,23 @@
         private readonly IDeletableEntityRepository<Employee> employeeReposiotry;
         private readonly IDeletableEntityRepository<EmployeeOwner> employeeOwnerReposiotry;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<Project> projectReposiotry;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserReposiotry;
 
         public AccountsService(
             IDeletableEntityRepository<Owner> ownerReposiotry,
             IDeletableEntityRepository<Employee> employeeReposiotry,
             IDeletableEntityRepository<EmployeeOwner> employeeOwnerReposiotry,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IDeletableEntityRepository<Project> projectReposiotry,
+            IDeletableEntityRepository<ApplicationUser> applicationUserReposiotry)
         {
             this.ownerReposiotry = ownerReposiotry;
             this.employeeReposiotry = employeeReposiotry;
             this.employeeOwnerReposiotry = employeeOwnerReposiotry;
             this.userManager = userManager;
+            this.projectReposiotry = projectReposiotry;
+            this.applicationUserReposiotry = applicationUserReposiotry;
         }
 
         public async Task RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role)
@@ -56,11 +63,29 @@
 
             await this.employeeReposiotry.AddAsync(employee);
             await this.employeeReposiotry.SaveChangesAsync();
+            var project = await this.projectReposiotry.All().FirstOrDefaultAsync(x => x.Id == projectId);
+
+            project.Members.Add(employee);
+            this.projectReposiotry.Update(project);
+            await this.projectReposiotry.SaveChangesAsync();
 
             if (result.Succeeded)
             {
                 // TODO: Feature implement Looger
             }
+        }
+
+        public async Task AddEmployee(string ownerId, string email, string projectId, MemberStatus status)
+        {
+            var applicationUser = await this.applicationUserReposiotry.All().FirstOrDefaultAsync(x => x.Email == email);
+            var employee = await this.employeeReposiotry.All().FirstOrDefaultAsync(x => x.UserId == applicationUser.Id);
+
+
+            var project = await this.projectReposiotry.All().FirstOrDefaultAsync(x => x.Id == projectId);
+
+            project.Members.Add(employee);
+            this.projectReposiotry.Update(project);
+            await this.projectReposiotry.SaveChangesAsync();
         }
 
         public async Task RegisterOwner(string userId)

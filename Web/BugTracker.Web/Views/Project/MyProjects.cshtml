@@ -1,137 +1,25 @@
-﻿
+﻿@using BugTracker.Web.ViewModels.Projects
+
+@model IEnumerable<ProjectViewModel>
+
 <div class="container mt-5">
     <div class="row">
-
-        <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Cyber Wars</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
+        @foreach (var project in Model)
+        {
+            <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview" asp-route-projectId="@project.Id">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">
+                        <h3 class="m-b-20">@project.Name</h3>
+                        <h6 class="m-b-20">All Tasks</h6>
+                        <h2 class="text-right">
+                            <i class="fas fa-tasks f-left"></i>
+                            <span>@project.WorkItems.Count()</span>
+                        </h2>
+                        <p class="m-b-0">Completed Tasks<span class="f-right">@project.CompletedTask</span></p>
+                    </div>
                 </div>
-            </div>
-        </a>
-
-        <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Quantum DMS</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-        <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview">
-            <div class="card bg-c-pink order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Bug Tracker</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-        <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Azure Devops</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-        <a class="col-md-4 col-xl-3" asp-controller="ProjectOptions" asp-action="Overview">
-            <div class="card bg-c-yellow order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Sofia Wars</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-
-        <a class="col-md-4 col-xl-3" asp-controller="Home" asp-action="Index">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Lady Zone Be.....</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-
-        <a class="col-md-4 col-xl-3" asp-controller="Home" asp-action="Index">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Cyber Wars</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-
-        <a class="col-md-4 col-xl-3" asp-controller="Home" asp-action="Index">
-            <div class="card bg-c-yellow order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Cyber Wars</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
-
-        <a class="col-md-4 col-xl-3" asp-controller="Home" asp-action="Index">
-            <div class="card bg-c-green order-card">
-                <div class="card-block">
-                    <h3 class="m-b-20">Cyber Wars</h3>
-                    <h6 class="m-b-20">All Tasks</h6>
-                    <h2 class="text-right">
-                        <i class="fas fa-tasks f-left"></i>
-                        <span>4986</span>
-                    </h2>
-                    <p class="m-b-0">Completed Tasks<span class="f-right">351</span></p>
-                </div>
-            </div>
-        </a>
-
+            </a>
+        }
     </div>
 </div>
 

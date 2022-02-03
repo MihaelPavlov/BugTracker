@@ -5,9 +5,12 @@
             {
                 <a class="navbar-brand " href="#" id="dropdownNavMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-bars"></i> Menu <i class="fas fa-angle-down"></i></a>
                 <ul class="dropdown-menu  dropdown-menu-xl-right mt-sm-4 " aria-labelledby="dropdownNavMenu">
-                    <li class="nav-item p-2">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="CreateProject" title="createProject">Create Project</a>
-                    </li>
+                    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="CreateProject" title="createProject">CreateProject</a>
+                        </li>
+                    }
                     <li class="nav-item p-2">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="MyProjects" title="myProjects">My Projects</a>
                     </li>

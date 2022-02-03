@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" asp-controller="ProjectOptions" asp-action="AddMember">
+                <form method="post" asp-controller="ProjectOptions" asp-action="AddNewMember">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="inputName">Name</label>
@@ -49,6 +49,13 @@
                             </select>
                         </div>
 
+                    </div>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Add New Member</button>
+                </form>
+                <form method="post" asp-controller="ProjectOptions" asp-action="AddMember">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email">
                     </div>
                     <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Add Member</button>
                 </form>

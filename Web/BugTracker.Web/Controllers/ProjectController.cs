@@ -1,11 +1,12 @@
 ﻿namespace BugTracker.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
 
     public class ProjectController : Controller
     {
@@ -41,9 +42,25 @@
         }
 
         [HttpGet]
-        public IActionResult MyProjects()
+        public async Task<IActionResult> MyProjects()
         {
-            return this.View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var ownerId = await this.projectService.GetOwnerIdByUserId(userId);
+
+            if (!string.IsNullOrEmpty(ownerId))
+            {
+                var viewModel = await this.projectService.GetAllProjectByOwnerId(ownerId);
+                return this.View(viewModel);
+            }
+            else if (string.IsNullOrEmpty(ownerId))
+            {
+                var employeeId = await this.projectService.GetEmployeeIdByUserId(userId);
+                var viewModel = await this.projectService.GetAllProjectByEmployeeId(employeeId);
+                return this.View(viewModel);
+            }
+
+            return this.BadRequest();
         }
 
         [HttpGet]

@@ -8,55 +8,46 @@
     using BugTracker.Data.Enums;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
+    using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using Westwind.AspNetCore.Markdown;
 
     public class ProjectOptionsController : Controller
     {
         private readonly IAccountsService accountsService;
         private readonly IOwnerService ownerService;
+        private readonly IMemoryCache memoryCache;
         private IWebHostEnvironment hostEnvironment;
 
         public ProjectOptionsController(
             IWebHostEnvironment environment,
             IAccountsService accountsService,
-            IOwnerService ownerService)
+            IOwnerService ownerService,
+            IMemoryCache memoryCache)
         {
             this.hostEnvironment = environment;
             this.accountsService = accountsService;
             this.ownerService = ownerService;
-        }
-
-        public IActionResult WorkItems()
-        {
-            return this.View();
-        }
-
-        public IActionResult ShowTask(string taskId)
-        {
-            object model = taskId;
-            return this.View(model);
-        }
-
-        public IActionResult Members()
-        {
-            return this.View();
-        }
-
-        public IActionResult ProjectNotes()
-        {
-            return this.View();
-        }
-
-        public IActionResult Channels()
-        {
-            return this.View();
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
-        public IActionResult Overview()
+        public IActionResult Overview(string projectId)
         {
+            if (!string.IsNullOrEmpty(projectId))
+            {
+                this.memoryCache.Set("projetId", projectId);
+            }
+
+            var memoryCacheProjectId = this.memoryCache.Get("projetId");
+            if (memoryCacheProjectId == null)
+            {
+                return this.Redirect("/Project/MyProjects");
+            }
+
             var model = new ReadmeViewModel();
 
             try
@@ -105,12 +96,58 @@
             return this.View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddMember(string email, MemberStatus status, string role)
+        public IActionResult WorkItems()
         {
+            var test = this.memoryCache.Get("projetId");
+
+            return this.View();
+        }
+
+        public IActionResult ShowTask(string taskId)
+        {
+            var test = this.memoryCache.Get("projetId");
+
+            object model = taskId;
+            return this.View(model);
+        }
+
+        public IActionResult Members()
+        {
+            var test = this.memoryCache.Get("projetId");
+
+            return this.View();
+        }
+
+        public IActionResult ProjectNotes()
+        {
+            return this.View();
+        }
+
+        public IActionResult Channels()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewMember(string email, MemberStatus status, string role)
+        {
+            var projectId = this.memoryCache.Get("projetId").ToString();
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var ownerId = await this.ownerService.GetOwnerId(userId);
-            await this.accountsService.RegisterEmployee(ownerId, email, "test", status, role);
+            await this.accountsService.RegisterEmployee(ownerId, email, projectId, status, role);
+
+            return this.RedirectToAction("WorkItems");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMember(string email, MemberStatus status)
+        {
+            var projectId = this.memoryCache.Get("projetId").ToString();
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ownerId = await this.ownerService.GetOwnerId(userId);
+            await this.accountsService.AddEmployee(ownerId, email, projectId, status);
 
             return this.RedirectToAction("WorkItems");
         }
