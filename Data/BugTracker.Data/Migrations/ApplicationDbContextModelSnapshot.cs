@@ -244,6 +244,9 @@ namespace BugTracker.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 

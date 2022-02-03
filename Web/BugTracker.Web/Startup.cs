@@ -66,6 +66,7 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
             services.AddScoped(typeof(IAccountsService), typeof(AccountsService));
             services.AddScoped(typeof(IOwnerService), typeof(OwnerService));
+            services.AddScoped(typeof(IProjectService), typeof(ProjectService));
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
