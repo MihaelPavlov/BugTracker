@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BugTracker.Common\BugTracker.Common.csproj" />
     <ProjectReference Include="..\..\BugTracker.Data.Enums\BugTracker.Data.Enums.csproj" />
+    <ProjectReference Include="..\..\BugTracker.Data.Utilities\BugTracker.Data.Utilities.csproj" />
     <ProjectReference Include="..\..\Data\BugTracker.Data.Common\BugTracker.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\BugTracker.Data.Models\BugTracker.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\BugTracker.Web.ViewModels\BugTracker.Web.ViewModels.csproj" />

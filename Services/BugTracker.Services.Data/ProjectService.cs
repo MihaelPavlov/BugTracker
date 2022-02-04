@@ -7,6 +7,7 @@
 
     using BugTracker.Data.Common.Repositories;
     using BugTracker.Data.Models;
+    using BugTracker.Data.Utilities;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Services.Mapping;
     using BugTracker.Web.ViewModels.InputModels;
@@ -26,14 +27,16 @@
             IDeletableEntityRepository<Owner> ownerRepository,
             IDeletableEntityRepository<Employee> employeeRepository)
         {
-            this.projectRepository = projectRepository;
-            this.projectEmployeeRepository = projectEmployeeRepository;
-            this.ownerRepository = ownerRepository;
-            this.employeeRepository = employeeRepository;
+            this.projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
+            this.projectEmployeeRepository = projectEmployeeRepository ?? throw new ArgumentNullException(nameof(projectEmployeeRepository));
+            this.ownerRepository = ownerRepository ?? throw new ArgumentNullException(nameof(ownerRepository));
+            this.employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
-        public async Task<Project> CreateProject(string userId, CreateProjectInputModel createProjectInputModel)
+        public async Task<OperationResult<Project>> CreateProject(string userId, CreateProjectInputModel createProjectInputModel)
         {
+            var operationResult = new OperationResult<Project>();
+
             try
             {
                 var owner = await this.ownerRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
@@ -46,13 +49,14 @@
                 await this.projectRepository.AddAsync(project);
                 await this.projectRepository.SaveChangesAsync();
 
-                return project;
+                operationResult.RelatedObject = project;
             }
             catch (Exception ex)
             {
-                return null;
-                throw new InvalidOperationException(ex.Message);
+                operationResult.AppendError(ex);
             }
+
+            return operationResult;
         }
 
         public async Task<IEnumerable<ProjectViewModel>> GetAllProjectByEmployeeId(string employeeId)

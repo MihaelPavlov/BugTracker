@@ -35,10 +35,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var project = await this.projectService.CreateProject(userId, createProjectInputModel);
-            if (project != null)
+            var operationResult = await this.projectService.CreateProject(userId, createProjectInputModel);
+            if (operationResult.Success)
             {
-                this.memoryCache.Set("projetId", project.Id);
+                this.memoryCache.Set("projetId", operationResult.RelatedObject.Id);
 
                 return this.Redirect($"/ProjectOptions/Overview");
             }

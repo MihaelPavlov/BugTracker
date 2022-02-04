@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Models;
+    using BugTracker.Data.Utilities;
     using BugTracker.Web.ViewModels.InputModels;
     using BugTracker.Web.ViewModels.Projects;
 
@@ -15,7 +16,7 @@
         /// </summary>
         /// <param name="userId">A string representing the user Id.</param>
         /// <param name="createProjectInputModel">Input model <see cref="CreateProjectInputModel"/>.</param>
-        Task<Project> CreateProject(string userId, CreateProjectInputModel createProjectInputModel);
+        Task<OperationResult<Project>> CreateProject(string userId, CreateProjectInputModel createProjectInputModel);
 
         /// <summary>
         /// Use this method to get the owner Id from user Id.

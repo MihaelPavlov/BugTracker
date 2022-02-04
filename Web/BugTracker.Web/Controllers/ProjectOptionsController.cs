@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Enums;
+    using BugTracker.Data.Utilities;
     using BugTracker.Services.Data;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
@@ -153,7 +154,7 @@
             {
                 await this.accountsService.AddEmployee(ownerId, email, projectId, status);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Warning, "Your already have this member in this project!");
             }
