@@ -19,6 +19,7 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<Project> projectReposiotry;
         private readonly IDeletableEntityRepository<ApplicationUser> applicationUserReposiotry;
+        private readonly IDeletableEntityRepository<ProjectEmployee> projectEmployeeReposiotry;
 
         public AccountsService(
             IDeletableEntityRepository<Owner> ownerReposiotry,
@@ -26,7 +27,8 @@
             IDeletableEntityRepository<EmployeeOwner> employeeOwnerReposiotry,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<Project> projectReposiotry,
-            IDeletableEntityRepository<ApplicationUser> applicationUserReposiotry)
+            IDeletableEntityRepository<ApplicationUser> applicationUserReposiotry,
+            IDeletableEntityRepository<ProjectEmployee> projectEmployeeReposiotry)
         {
             this.ownerReposiotry = ownerReposiotry;
             this.employeeReposiotry = employeeReposiotry;
@@ -34,6 +36,7 @@
             this.userManager = userManager;
             this.projectReposiotry = projectReposiotry;
             this.applicationUserReposiotry = applicationUserReposiotry;
+            this.projectEmployeeReposiotry = projectEmployeeReposiotry;
         }
 
         public async Task RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role)
@@ -59,15 +62,20 @@
                 OwnerId = ownerId,
             };
 
-            employee.Owners.Add(employeeOwner);
+            var projectEmployee = new ProjectEmployee
+            {
+                EmployeeId = employee.Id,
+                ProjectId = projectId,
+            };
 
             await this.employeeReposiotry.AddAsync(employee);
             await this.employeeReposiotry.SaveChangesAsync();
-            var project = await this.projectReposiotry.All().FirstOrDefaultAsync(x => x.Id == projectId);
 
-            project.Members.Add(employee);
-            this.projectReposiotry.Update(project);
-            await this.projectReposiotry.SaveChangesAsync();
+            await this.employeeOwnerReposiotry.AddAsync(employeeOwner);
+            await this.employeeOwnerReposiotry.SaveChangesAsync();
+
+            await this.projectEmployeeReposiotry.AddAsync(projectEmployee);
+            await this.projectEmployeeReposiotry.SaveChangesAsync();
 
             if (result.Succeeded)
             {
@@ -78,14 +86,33 @@
         public async Task AddEmployee(string ownerId, string email, string projectId, MemberStatus status)
         {
             var applicationUser = await this.applicationUserReposiotry.All().FirstOrDefaultAsync(x => x.Email == email);
+
             var employee = await this.employeeReposiotry.All().FirstOrDefaultAsync(x => x.UserId == applicationUser.Id);
 
+            var isEmployeeAlreadyWorkForThisOwner = await this.employeeOwnerReposiotry.All().AnyAsync(x => x.OwnerId == ownerId && x.EmployeeId == employee.Id);
 
-            var project = await this.projectReposiotry.All().FirstOrDefaultAsync(x => x.Id == projectId);
+            // If this employee is new for this owner. Then create it.
+            if (!isEmployeeAlreadyWorkForThisOwner)
+            {
+                var employeeOwner = new EmployeeOwner
+                {
+                    EmployeeId = employee.Id,
+                    OwnerId = ownerId,
+                };
 
-            project.Members.Add(employee);
-            this.projectReposiotry.Update(project);
-            await this.projectReposiotry.SaveChangesAsync();
+                await this.employeeOwnerReposiotry.AddAsync(employeeOwner);
+                await this.employeeOwnerReposiotry.SaveChangesAsync();
+            }
+
+            var projectEmployee = new ProjectEmployee
+            {
+                ProjectId = projectId,
+                EmployeeId = employee.Id,
+                Employee = employee,
+            };
+
+            await this.projectEmployeeReposiotry.AddAsync(projectEmployee);
+            await this.projectEmployeeReposiotry.SaveChangesAsync();
         }
 
         public async Task RegisterOwner(string userId)

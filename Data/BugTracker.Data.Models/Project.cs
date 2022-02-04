@@ -10,7 +10,7 @@
         public Project()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Members = new HashSet<Employee>();
+            this.Members = new HashSet<ProjectEmployee>();
             this.WorkItems = new HashSet<WorkItem>();
         }
 
@@ -20,7 +20,7 @@
 
         public Owner Owner { get; set; }
 
-        public virtual ICollection<Employee> Members { get; set; }
+        public virtual ICollection<ProjectEmployee> Members { get; set; }
 
         public virtual ICollection<WorkItem> WorkItems { get; set; }
     }

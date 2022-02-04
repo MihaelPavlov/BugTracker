@@ -12,6 +12,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Owners = new HashSet<EmployeeOwner>();
+            this.ProjectEmployees = new HashSet<ProjectEmployee>();
         }
 
         [Required]
@@ -20,5 +21,7 @@
         public ApplicationUser User { get; set; }
 
         public virtual ICollection<EmployeeOwner> Owners { get; set; }
+
+        public virtual ICollection<ProjectEmployee> ProjectEmployees { get; set; }
     }
 }

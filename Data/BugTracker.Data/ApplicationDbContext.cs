@@ -34,6 +34,8 @@
 
         public DbSet<Project> Projects { get; set; }
 
+        public DbSet<ProjectEmployee> ProjectEmployees { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -103,6 +105,19 @@
                 .HasOne(x => x.Owner)
                 .WithMany(x => x.Employees)
                 .HasForeignKey(x => x.OwnerId);
+
+            builder.Entity<ProjectEmployee>()
+           .HasKey(x => new { x.ProjectId, x.EmployeeId });
+
+            builder.Entity<ProjectEmployee>()
+            .HasOne(x => x.Employee)
+            .WithMany(x => x.ProjectEmployees)
+            .HasForeignKey(x => x.EmployeeId);
+
+            builder.Entity<ProjectEmployee>()
+                .HasOne(x => x.Project)
+                .WithMany(x => x.Members)
+                .HasForeignKey(x => x.ProjectId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

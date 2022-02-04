@@ -16,20 +16,23 @@
     public class ProjectService : IProjectService
     {
         private readonly IDeletableEntityRepository<Project> projectRepository;
+        private readonly IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository;
         private readonly IDeletableEntityRepository<Owner> ownerRepository;
         private readonly IDeletableEntityRepository<Employee> employeeRepository;
 
         public ProjectService(
             IDeletableEntityRepository<Project> projectRepository,
+            IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository,
             IDeletableEntityRepository<Owner> ownerRepository,
             IDeletableEntityRepository<Employee> employeeRepository)
         {
             this.projectRepository = projectRepository;
+            this.projectEmployeeRepository = projectEmployeeRepository;
             this.ownerRepository = ownerRepository;
             this.employeeRepository = employeeRepository;
         }
 
-        public async Task<bool> CreateProject(string userId, CreateProjectInputModel createProjectInputModel)
+        public async Task<Project> CreateProject(string userId, CreateProjectInputModel createProjectInputModel)
         {
             try
             {
@@ -43,34 +46,41 @@
                 await this.projectRepository.AddAsync(project);
                 await this.projectRepository.SaveChangesAsync();
 
-                return true;
+                return project;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
                 throw new InvalidOperationException(ex.Message);
             }
         }
 
         public async Task<IEnumerable<ProjectViewModel>> GetAllProjectByEmployeeId(string employeeId)
         {
-            var projects = await this.projectRepository.All().ToListAsync();
+            var allProjectsByEmployee = await this.projectEmployeeRepository
+                .All()
+                .Where(x => x.EmployeeId == employeeId).Include("Project")
+                .Select(x => new ProjectViewModel
+                {
+                    Id = x.ProjectId,
+                    Name = x.Project.Name,
+                    OwnerId = x.Project.OwnerId,
+                    CompletedTask = x.Project.WorkItems.Count(),
+                    Members = x.Project.Members,
+                    WorkItems = x.Project.WorkItems,
+                })
+                .ToListAsync();
 
-            var te = projects.Where(x => x.Members.Where(y => y.Id == employeeId).Any()).Select(x => new ProjectViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                OwnerId = x.OwnerId,
-                CompletedTask = 10,
-                WorkItems = new HashSet<WorkItem>()
-            }).ToList();
-
-            return te;
+            return allProjectsByEmployee;
         }
 
         public async Task<IEnumerable<ProjectViewModel>> GetAllProjectByOwnerId(string ownerId)
         {
-            var projectsByOwnerId = await this.projectRepository.All().Where(x => x.OwnerId == ownerId).To<ProjectViewModel>().ToListAsync();
+            var projectsByOwnerId = await this.projectRepository
+                .All()
+                .Where(x => x.OwnerId == ownerId)
+                .To<ProjectViewModel>()
+                .ToListAsync();
 
             return projectsByOwnerId;
         }

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Enums;
+    using BugTracker.Services.Data;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
     using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -147,9 +148,17 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var ownerId = await this.ownerService.GetOwnerId(userId);
-            await this.accountsService.AddEmployee(ownerId, email, projectId, status);
 
-            return this.RedirectToAction("WorkItems");
+            try
+            {
+                await this.accountsService.AddEmployee(ownerId, email, projectId, status);
+            }
+            catch (Exception)
+            {
+                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Warning, "Your already have this member in this project!");
+            }
+
+            return this.View("Members");
         }
 
         [HttpPost]

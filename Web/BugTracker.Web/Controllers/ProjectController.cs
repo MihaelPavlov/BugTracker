@@ -7,14 +7,19 @@
     using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class ProjectController : Controller
     {
         private readonly IProjectService projectService;
+        private readonly IMemoryCache memoryCache;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(
+            IProjectService projectService,
+            IMemoryCache memoryCache)
         {
             this.projectService = projectService;
+            this.memoryCache = memoryCache;
         }
 
         [Authorize(Roles = "Administrator")]
@@ -30,9 +35,11 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var result = await this.projectService.CreateProject(userId, createProjectInputModel);
-            if (result)
+            var project = await this.projectService.CreateProject(userId, createProjectInputModel);
+            if (project != null)
             {
+                this.memoryCache.Set("projetId", project.Id);
+
                 return this.Redirect($"/ProjectOptions/Overview");
             }
             else
