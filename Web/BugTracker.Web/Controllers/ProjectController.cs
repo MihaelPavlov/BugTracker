@@ -1,8 +1,10 @@
 ﻿namespace BugTracker.Web.Controllers
 {
+    using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using BugTracker.Common;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
@@ -18,19 +20,19 @@
             IProjectService projectService,
             IMemoryCache memoryCache)
         {
-            this.projectService = projectService;
-            this.memoryCache = memoryCache;
+            this.projectService = projectService ?? throw new ArgumentNullException(nameof(projectService));
+            this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult CreateProject()
         {
             return this.View();
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> CreateProject(CreateProjectInputModel createProjectInputModel)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -53,18 +55,20 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var ownerId = await this.projectService.GetOwnerIdByUserId(userId);
+            var getOwnerId = await this.projectService.GetOwnerIdByUserId(userId);
 
-            if (!string.IsNullOrEmpty(ownerId))
-            {
-                var viewModel = await this.projectService.GetAllProjectByOwnerId(ownerId);
-                return this.View(viewModel);
+            if (!string.IsNullOrEmpty(getOwnerId.RelatedObject))
+            {// When owner is not null.
+                var opertaionResult = await this.projectService.GetAllProjectByOwnerId(getOwnerId.RelatedObject);
+                return this.View(opertaionResult.RelatedObject);
             }
-            else if (string.IsNullOrEmpty(ownerId))
-            {
-                var employeeId = await this.projectService.GetEmployeeIdByUserId(userId);
-                var viewModel = await this.projectService.GetAllProjectByEmployeeId(employeeId);
-                return this.View(viewModel);
+            else if (string.IsNullOrEmpty(getOwnerId.RelatedObject))
+            {// If its not owner. Is an employee.
+                var getEmployeeId = await this.projectService.GetEmployeeIdByUserId(userId);
+
+                var operationResult = await this.projectService.GetAllProjectByEmployeeId(getEmployeeId.RelatedObject);
+
+                return this.View(operationResult.RelatedObject);
             }
 
             return this.BadRequest();

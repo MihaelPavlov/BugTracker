@@ -33,6 +33,7 @@
             this.employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult<Project>> CreateProject(string userId, CreateProjectInputModel createProjectInputModel)
         {
             var operationResult = new OperationResult<Project>();
@@ -59,9 +60,14 @@
             return operationResult;
         }
 
-        public async Task<IEnumerable<ProjectViewModel>> GetAllProjectByEmployeeId(string employeeId)
+        /// <inheritdoc />
+        public async Task<OperationResult<IEnumerable<ProjectViewModel>>> GetAllProjectByEmployeeId(string employeeId)
         {
-            var allProjectsByEmployee = await this.projectEmployeeRepository
+            var operationResult = new OperationResult<IEnumerable<ProjectViewModel>>();
+
+            try
+            {
+                operationResult.RelatedObject = await this.projectEmployeeRepository
                 .All()
                 .Where(x => x.EmployeeId == employeeId).Include("Project")
                 .Select(x => new ProjectViewModel
@@ -74,43 +80,82 @@
                     WorkItems = x.Project.WorkItems,
                 })
                 .ToListAsync();
-
-            return allProjectsByEmployee;
-        }
-
-        public async Task<IEnumerable<ProjectViewModel>> GetAllProjectByOwnerId(string ownerId)
-        {
-            var projectsByOwnerId = await this.projectRepository
-                .All()
-                .Where(x => x.OwnerId == ownerId)
-                .To<ProjectViewModel>()
-                .ToListAsync();
-
-            return projectsByOwnerId;
-        }
-
-        public async Task<string> GetEmployeeIdByUserId(string userId)
-        {
-            var employee = await this.employeeRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
-
-            if (employee == null)
+            }
+            catch (Exception ex)
             {
-                return string.Empty;
+                operationResult.AppendError(ex);
             }
 
-            return employee.Id;
+            return operationResult;
         }
 
-        public async Task<string> GetOwnerIdByUserId(string userId)
+        /// <inheritdoc />
+        public async Task<OperationResult<IEnumerable<ProjectViewModel>>> GetAllProjectByOwnerId(string ownerId)
         {
-            var owner = await this.ownerRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+            var operationResult = new OperationResult<IEnumerable<ProjectViewModel>>();
 
-            if (owner == null)
+            try
             {
-                return string.Empty;
+                operationResult.RelatedObject = await this.projectRepository
+                    .All()
+                    .Where(x => x.OwnerId == ownerId)
+                    .To<ProjectViewModel>()
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
             }
 
-            return owner.Id;
+            return operationResult;
+        }
+
+        /// <inheritdoc />
+        public async Task<OperationResult<string>> GetEmployeeIdByUserId(string userId)
+        {
+            var operationResult = new OperationResult<string>();
+
+            try
+            {
+                var employee = await this.employeeRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+
+                operationResult.RelatedObject = employee.Id;
+
+                if (employee == null)
+                {
+                    operationResult.RelatedObject = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
+            }
+
+            return operationResult;
+        }
+
+        /// <inheritdoc />
+        public async Task<OperationResult<string>> GetOwnerIdByUserId(string userId)
+        {
+            var operationResult = new OperationResult<string>();
+
+            try
+            {
+                var owner = await this.ownerRepository.All().FirstOrDefaultAsync(x => x.UserId == userId);
+
+                operationResult.RelatedObject = owner.Id;
+
+                if (owner == null)
+                {
+                    operationResult.RelatedObject = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
+            }
+
+            return operationResult;
         }
     }
 }

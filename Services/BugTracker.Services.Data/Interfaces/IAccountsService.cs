@@ -3,13 +3,14 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Enums;
+    using BugTracker.Data.Utilities;
 
     public interface IAccountsService
     {
-        Task RegisterOwner(string userId);
+        Task<OperationResult> RegisterOwner(string userId);
 
-        Task RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role);
+        Task<OperationResult> RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role);
 
-        Task AddEmployee(string ownerId, string email, string projectId, MemberStatus status);
+        Task<OperationResult> AddEmployee(string ownerId, string email, string projectId, MemberStatus status);
     }
 }

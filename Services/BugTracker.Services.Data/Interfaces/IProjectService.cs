@@ -1,6 +1,5 @@
 ﻿namespace BugTracker.Services.Data.Interfaces
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -23,17 +22,27 @@
         /// </summary>
         /// <param name="userId">A string representing the user Id.</param>
         /// <returns>A string representing the owner Id.</returns>
-        Task<string> GetOwnerIdByUserId(string userId);
+        Task<OperationResult<string>> GetOwnerIdByUserId(string userId);
 
         /// <summary>
-        /// Use this method to get collection with all projects that owner have.
+        /// Use this method to get a collection with all projects that owner have.
         /// </summary>
         /// <param name="ownerId">A string representing the owner Id.</param>
         /// <returns>A collection of <see cref="ProjectViewModel"/>.</returns>
-        Task<IEnumerable<ProjectViewModel>> GetAllProjectByOwnerId(string ownerId);
+        Task<OperationResult<IEnumerable<ProjectViewModel>>> GetAllProjectByOwnerId(string ownerId);
 
-        Task<string> GetEmployeeIdByUserId(string userId);
+        /// <summary>
+        /// Use this method to get employee Id by user Id.
+        /// </summary>
+        /// <param name="userId">A string representing the user Id.</param>
+        /// <returns>A string representing the Employee Id.</returns>
+        Task<OperationResult<string>> GetEmployeeIdByUserId(string userId);
 
-        Task<IEnumerable<ProjectViewModel>> GetAllProjectByEmployeeId(string employeeId);
+        /// <summary>
+        /// Use this method to get a collection with all projects that employee are in.
+        /// </summary>
+        /// <param name="employeeId">A string representing the employee Id.</param>
+        /// <returns>A collection of <see cref="ProjectViewModel"/>.</returns>
+        Task<OperationResult<IEnumerable<ProjectViewModel>>> GetAllProjectByEmployeeId(string employeeId);
     }
 }

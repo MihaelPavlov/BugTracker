@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BugTracker.Data.Utilities
 {
-    public class OperationResult<T>
+    public class OperationResult
     {
         private readonly List<Exception> _errors = new List<Exception>();
 
@@ -27,6 +27,7 @@ namespace BugTracker.Data.Utilities
         /// </summary>
         /// <param name="success">A value indicating whether the operation result is initially successful or not.</param>
         /// <remarks>If the operation is a get operation, an empty result must return a truthy Success value.</remarks>
+        /// 
         public OperationResult(bool success = true)
         {
             this.Success = success;
@@ -49,7 +50,14 @@ namespace BugTracker.Data.Utilities
         /// </summary>
         /// <returns>All error messages, joined with a new line character.</returns>
         public override string ToString() => string.Join(Environment.NewLine, this.Errors);
+    }
+    public class OperationResult<T> : OperationResult
+    {
+        public OperationResult(bool success = true)
+            : base(success)
+        {
 
+        }
         /// <summary>
         /// Gets or sets the related object of the operation.
         /// </summary>

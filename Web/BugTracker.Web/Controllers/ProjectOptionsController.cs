@@ -137,9 +137,14 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var ownerId = await this.ownerService.GetOwnerId(userId);
-            await this.accountsService.RegisterEmployee(ownerId, email, projectId, status, role);
+            var operationResult = await this.accountsService.RegisterEmployee(ownerId, email, projectId, status, role);
 
-            return this.RedirectToAction("WorkItems");
+            if (!operationResult.Success)
+            {
+                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Danger, operationResult.InitialException.Message);
+            }
+
+            return this.View("Members");
         }
 
         [HttpPost]
@@ -150,13 +155,11 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var ownerId = await this.ownerService.GetOwnerId(userId);
 
-            try
+            var opertionResult = await this.accountsService.AddEmployee(ownerId, email, projectId, status);
+
+            if (!opertionResult.Success)
             {
-                await this.accountsService.AddEmployee(ownerId, email, projectId, status);
-            }
-            catch (Exception ex)
-            {
-                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Warning, "Your already have this member in this project!");
+                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Warning, $"Your already have this member in this project! {opertionResult.InitialException.Message}");
             }
 
             return this.View("Members");
