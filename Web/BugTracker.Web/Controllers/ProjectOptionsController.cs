@@ -141,7 +141,7 @@
 
             if (!operationResult.Success)
             {
-                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Danger, operationResult.InitialException.Message);
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, operationResult.InitialException.Message);
             }
 
             return this.View("Members");
@@ -159,7 +159,7 @@
 
             if (!opertionResult.Success)
             {
-                this.ViewBag.Alert = CommonService.ShowAlert(Alerts.Warning, $"Your already have this member in this project! {opertionResult.InitialException.Message}");
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Warning, $"Your already have this member in this project! {opertionResult.InitialException.Message}");
             }
 
             return this.View("Members");

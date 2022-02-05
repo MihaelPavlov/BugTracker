@@ -1,12 +1,8 @@
 ﻿namespace BugTracker.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     using BugTracker.Data.Enums;
 
-    public class CommonService 
+    public class AlertService
     {
         public static string ShowAlert(Alerts obj, string message)
         {

@@ -39,6 +39,7 @@
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult> RegisterEmployee(string ownerId, string email, string projectId, MemberStatus status, string role)
         {
             var operationResult = new OperationResult();
@@ -80,7 +81,6 @@
 
                 await this.projectEmployeeReposiotry.AddAsync(projectEmployee);
                 await this.projectEmployeeReposiotry.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {
@@ -90,6 +90,7 @@
             return operationResult;
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult> AddEmployee(string ownerId, string email, string projectId, MemberStatus status)
         {
             var operationResult = new OperationResult();
@@ -133,6 +134,7 @@
             return operationResult;
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult> RegisterOwner(string userId)
         {
             var operationResult = new OperationResult();
@@ -155,6 +157,7 @@
             return operationResult;
         }
 
+        // Helper methods.
         private string GeneratePassword(int length)
         {
             string password = Guid.NewGuid().ToString();
