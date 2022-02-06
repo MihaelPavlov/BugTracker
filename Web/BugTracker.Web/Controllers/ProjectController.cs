@@ -57,18 +57,25 @@
 
             var getOwnerId = await this.projectService.GetOwnerIdByUserId(userId);
 
-            if (!string.IsNullOrEmpty(getOwnerId.RelatedObject))
+            if (getOwnerId.Success)
             {// When owner is not null.
                 var opertaionResult = await this.projectService.GetAllProjectByOwnerId(getOwnerId.RelatedObject);
-                return this.View(opertaionResult.RelatedObject);
+
+                if (opertaionResult.Success)
+                {
+                    return this.View(opertaionResult.RelatedObject);
+                }
             }
-            else if (string.IsNullOrEmpty(getOwnerId.RelatedObject))
+            else if (!getOwnerId.Success)
             {// If its not owner. Is an employee.
                 var getEmployeeId = await this.projectService.GetEmployeeIdByUserId(userId);
 
                 var operationResult = await this.projectService.GetAllProjectByEmployeeId(getEmployeeId.RelatedObject);
 
-                return this.View(operationResult.RelatedObject);
+                if (operationResult.Success)
+                {
+                    return this.View(operationResult.RelatedObject);
+                }
             }
 
             return this.BadRequest();

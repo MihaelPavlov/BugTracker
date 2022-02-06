@@ -145,9 +145,9 @@
 
                 operationResult.RelatedObject = owner.Id;
 
-                if (owner == null)
+                if (owner is null)
                 {
-                    operationResult.RelatedObject = string.Empty;
+                    operationResult.Success = false;
                 }
             }
             catch (Exception ex)
