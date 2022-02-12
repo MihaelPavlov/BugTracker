@@ -25,7 +25,7 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult CreateProject()
         {
             return this.View();

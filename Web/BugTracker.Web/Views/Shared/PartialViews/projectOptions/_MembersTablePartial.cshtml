@@ -1,8 +1,5 @@
-﻿<div class="q-alert-service col-md-10">
-    <div class="form-group">
-        @Html.Raw(@ViewBag.Alert)
-    </div>
-</div>
+﻿<partial name="_AlertPartial" />
+
 
 <table class="table  q-table-members">
     <caption>
@@ -50,15 +47,3 @@
 </table>
 
 
-
-<style>
-    .q-alert-service {
-        position: absolute;
-        top: 13%;
-       
-    }
-    .q-member-link:hover {
-        opacity: 5;
-        cursor: pointer;
-    }
-</style>

@@ -68,7 +68,7 @@
             services.AddScoped(typeof(IProjectService), typeof(ProjectService));
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(serviceProvider => new SendGridEmailSender(this.configuration.GetConnectionString("ApiKey")));
             services.AddTransient<ISettingsService, SettingsService>();
         }
 

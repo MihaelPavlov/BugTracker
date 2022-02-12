@@ -44,6 +44,8 @@
                 var project = new Project
                 {
                     Name = createProjectInputModel.ProjectName,
+                    Description = createProjectInputModel.Description == null ? string.Empty : createProjectInputModel.Description,
+                    IsPublic = createProjectInputModel.IsPublic,
                     OwnerId = owner.Id,
                 };
 
