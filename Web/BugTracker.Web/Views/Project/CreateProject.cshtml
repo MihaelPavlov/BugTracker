@@ -1,12 +1,15 @@
 ﻿@using BugTracker.Web.ViewModels.InputModels
 
 @model CreateProjectInputModel
- 
+
+<partial name="_AlertPartial"> 
+
 <div class="container mt-5 ml-5">
 
     <span class="h2">New project</span>
 
     <form class="mt-5" method="post" asp-controller="Project" asp-action="CreateProject">
+        <div class="text-danger" asp-validation-summary="All"></div>
         <div class="form-group row">
             <label for="name" class="col-1 col-form-label">Name *</label>
             <div class="col-4">
@@ -20,7 +23,6 @@
                 </a>
             </p>
             <div class="wrapper center-block">
-
                 <div class="collapse" id="collapseExample">
                     <div class="form-group row">
                         <label for="name" class="col-1 col-form-label">Description</label>

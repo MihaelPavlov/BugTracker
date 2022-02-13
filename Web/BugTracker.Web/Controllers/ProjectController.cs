@@ -5,6 +5,8 @@
     using System.Threading.Tasks;
 
     using BugTracker.Common;
+    using BugTracker.Data.Enums;
+    using BugTracker.Services.Data;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
@@ -46,11 +48,14 @@
             }
             else
             {
-                return this.BadRequest();
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Info, operationResult.InitialException.Message);
+
+                return this.View("CreateProject");
             }
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorOrManagerOrContributorsOrReader)]
         public async Task<IActionResult> MyProjects()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

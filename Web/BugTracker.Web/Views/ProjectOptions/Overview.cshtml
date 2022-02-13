@@ -7,16 +7,6 @@
 
 <div class="position-relative">
     <div class="q-overview-readme-container shadow-lg">
-        @*<form method="post" asp-controller="ProjectOptions" asp-action="MarkdownPageTemplate">
-                <pre style="word-wrap:break-word; white-space:pre-wrap">
-                <textarea name="textArea" class="form-control file-editor-textarea js-blob-contents js-code-textarea " data-hotkey-scope-id="code-editor" data-allow-unchanged data-codemirror-mode="text/x-gfm" data-filename="README.md" cols="100" rows="100">
-
-                @Html.Raw(Model.ReamdeTxt);
-
-            </textarea>
-            </pre>
-                <button type="submit">Submit</button>
-            </form>*@
         <div class="p-5">
             <a class="btn btn-dark float-right " asp-controller="ProjectOptions" asp-action="EditOverview"><i class="fas fa-pencil-alt fa-lg"></i></a>
             @Html.Raw(Model.ReamdeMd)

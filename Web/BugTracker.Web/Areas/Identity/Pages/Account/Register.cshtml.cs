@@ -11,7 +11,6 @@
     using BugTracker.Common;
     using BugTracker.Data.Models;
     using BugTracker.Services.Data.Interfaces;
-    using BugTracker.Web.Infrastructure;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;

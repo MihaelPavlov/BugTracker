@@ -11,5 +11,7 @@
         public const string ContributorsRoleName = "Contributors";
 
         public const string ReaderRoleName = "Reader";
+
+        public const string AdministratorOrManagerOrContributorsOrReader = AdministratorRoleName + "," + ManagerRoleName + "," + ContributorsRoleName + "," + ReaderRoleName;
     }
 }

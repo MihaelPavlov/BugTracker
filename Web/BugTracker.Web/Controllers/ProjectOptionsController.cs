@@ -30,10 +30,10 @@
             IOwnerService ownerService,
             IMemoryCache memoryCache)
         {
-            this.hostEnvironment = environment;
-            this.accountsService = accountsService;
-            this.ownerService = ownerService;
-            this.memoryCache = memoryCache;
+            this.hostEnvironment = environment ?? throw new ArgumentNullException(nameof(environment));
+            this.accountsService = accountsService ?? throw new ArgumentNullException(nameof(accountsService));
+            this.ownerService = ownerService ?? throw new ArgumentNullException(nameof(ownerService));
+            this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@
             }
 
             var memoryCacheProjectId = this.memoryCache.Get("projetId");
-            if (memoryCacheProjectId == null)
+            if (memoryCacheProjectId is null)
             {
                 return this.Redirect("/Project/MyProjects");
             }
@@ -54,8 +54,8 @@
 
             try
             {
-                string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
-                string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
+                string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.txt");
+                string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.md");
                 var txt2 = System.IO.File.ReadAllText(pathTxt);
                 var md2 = Markdown.ParseFromUrl(pathMd);
 
@@ -65,13 +65,15 @@
             }
             catch (Exception ex)
             {
-
-                using (FileStream writer = System.IO.File.Create("wwwroot/README.txt"))
+                using (FileStream writer = System.IO.File.Create($"wwwroot/{memoryCacheProjectId}-README.txt"))
+                {
+                }
+                using (FileStream writer = System.IO.File.Create($"wwwroot/{memoryCacheProjectId}-README.md"))
                 {
                 }
 
-                string newCreatedPathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
-                string newCreatedPathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
+                string newCreatedPathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.txt");
+                string newCreatedPathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.md");
 
                 string txt = System.IO.File.ReadAllText(newCreatedPathTxt);
                 var md = Markdown.ParseFromUrl(newCreatedPathMd);
@@ -86,16 +88,58 @@
         [HttpGet]
         public IActionResult EditOverview()
         {
+            var memoryCacheProjectId = this.memoryCache.Get("projetId");
+
+            if (memoryCacheProjectId is null)
+            {
+                return this.BadRequest();
+            }
+
             var model = new ReadmeViewModel();
 
-            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
-            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
+            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.txt");
+            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.md");
             var txt2 = System.IO.File.ReadAllText(pathTxt);
             var md2 = Markdown.ParseFromUrl(pathMd);
 
             model.ReamdeTxt = txt2;
             model.ReamdeMd = md2;
             return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditOverview(string textArea)
+        {
+            var memoryCacheProjectId = this.memoryCache.Get("projetId");
+
+            if (memoryCacheProjectId is null)
+            {
+                return this.BadRequest();
+            }
+
+            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.txt");
+
+            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{memoryCacheProjectId}-README.md");
+
+            using (var writer = System.IO.File.CreateText(pathMd))
+            {
+                writer.Write(textArea);
+                writer.Dispose();
+            }
+
+            using (var writer = System.IO.File.CreateText(pathTxt))
+            {
+                writer.Write(textArea);
+                writer.Dispose();
+            }
+
+            var model = new ReadmeViewModel();
+            string txt = System.IO.File.ReadAllText(pathTxt);
+            var md = Markdown.ParseFromUrl(pathMd);
+
+            model.ReamdeTxt = txt;
+            model.ReamdeMd = md;
+            return this.View("Overview", model);
         }
 
         public IActionResult WorkItems()
@@ -163,34 +207,6 @@
             }
 
             return this.View("Members");
-        }
-
-        [HttpPost]
-        public IActionResult EditOverview(string textArea)
-        {
-            string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, "README.txt");
-
-            string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, "README.md");
-
-            using (var writer = System.IO.File.CreateText(pathMd))
-            {
-                writer.Write(textArea);
-                writer.Dispose();
-            }
-
-            using (var writer = System.IO.File.CreateText(pathTxt))
-            {
-                writer.Write(textArea);
-                writer.Dispose();
-            }
-
-            var model = new ReadmeViewModel();
-            string txt = System.IO.File.ReadAllText(pathTxt);
-            var md = Markdown.ParseFromUrl(pathMd);
-
-            model.ReamdeTxt = txt;
-            model.ReamdeMd = md;
-            return this.View("Overview", model);
         }
     }
 }
