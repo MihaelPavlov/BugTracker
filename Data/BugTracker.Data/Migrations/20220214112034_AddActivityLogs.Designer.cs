@@ -4,14 +4,16 @@ using BugTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214112034_AddActivityLogs")]
+    partial class AddActivityLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,52 +192,6 @@ namespace BugTracker.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("EmployeeOwners");
-                });
-
-            modelBuilder.Entity("BugTracker.Data.Models.Note", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreateByApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreateByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Header")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NoteColorType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreateByApplicationUserId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("BugTracker.Data.Models.Owner", b =>
@@ -546,21 +502,6 @@ namespace BugTracker.Data.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("BugTracker.Data.Models.Note", b =>
-                {
-                    b.HasOne("BugTracker.Data.Models.ApplicationUser", "CreateByApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("CreateByApplicationUserId");
-
-                    b.HasOne("BugTracker.Data.Models.Project", "Project")
-                        .WithMany("Notes")
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("CreateByApplicationUser");
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("BugTracker.Data.Models.Owner", b =>
                 {
                     b.HasOne("BugTracker.Data.Models.ApplicationUser", "User")
@@ -697,8 +638,6 @@ namespace BugTracker.Data.Migrations
             modelBuilder.Entity("BugTracker.Data.Models.Project", b =>
                 {
                     b.Navigation("Members");
-
-                    b.Navigation("Notes");
 
                     b.Navigation("WorkItems");
                 });

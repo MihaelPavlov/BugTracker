@@ -19,6 +19,7 @@
     public class ProjectOptionsController : Controller
     {
         private readonly IAccountsService accountsService;
+        private readonly IProjectOptionsService projectOptionsService;
         private readonly IOwnerService ownerService;
         private readonly IMemoryCache memoryCache;
         private IWebHostEnvironment hostEnvironment;
@@ -26,17 +27,19 @@
         public ProjectOptionsController(
             IWebHostEnvironment environment,
             IAccountsService accountsService,
+            IProjectOptionsService projectOptionsService,
             IOwnerService ownerService,
             IMemoryCache memoryCache)
         {
             this.hostEnvironment = environment ?? throw new ArgumentNullException(nameof(environment));
             this.accountsService = accountsService ?? throw new ArgumentNullException(nameof(accountsService));
+            this.projectOptionsService = projectOptionsService ?? throw new ArgumentNullException(nameof(projectOptionsService));
             this.ownerService = ownerService ?? throw new ArgumentNullException(nameof(ownerService));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         [HttpGet]
-        public IActionResult Overview(string projectId)
+        public async Task<IActionResult> Overview(string projectId)
         {
             this.SetProjectId(projectId);
 
@@ -46,16 +49,26 @@
                 return this.Redirect("/Project/MyProjects");
             }
 
-            var model = new ReadmeViewModel();
+            var model = new OverviewViewModel();
+
+            var operationResult = await this.GetInfo(model, getMemoryCacheProjectId.RelatedObject);
+
+            if (!operationResult.Success)
+            {
+                model.CompletedWorkItemsCount = 0;
+                model.CreatedNoteItemsCount = 0;
+                model.WorkItemsCount = 0;
+                model.ProjectMembersCount = 0;
+            }
 
             try
             {
-                string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.txt");
+                //string pathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.txt");
                 string pathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.md");
-                var txt2 = System.IO.File.ReadAllText(pathTxt);
+                //var txt2 = System.IO.File.ReadAllText(pathTxt);
                 var md2 = Markdown.ParseFromUrl(pathMd);
 
-                model.ReamdeTxt = txt2;
+                //model.ReamdeTxt = txt2;
                 model.ReamdeMd = md2;
                 return this.View(model);
             }
@@ -69,13 +82,13 @@
                 {
                 }
 
-                string newCreatedPathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.txt");
+                //string newCreatedPathTxt = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.txt");
                 string newCreatedPathMd = Path.Combine(this.hostEnvironment.WebRootPath, $"{getMemoryCacheProjectId.RelatedObject}-README.md");
 
-                string txt = System.IO.File.ReadAllText(newCreatedPathTxt);
+                //string txt = System.IO.File.ReadAllText(newCreatedPathTxt);
                 var md = Markdown.ParseFromUrl(newCreatedPathMd);
 
-                model.ReamdeTxt = txt;
+                //model.ReamdeTxt = txt;
                 model.ReamdeMd = md;
 
                 return this.View(model);
@@ -127,11 +140,11 @@
                 writer.Dispose();
             }
 
-            var model = new ReadmeViewModel();
-            string txt = System.IO.File.ReadAllText(pathTxt);
+            var model = new OverviewViewModel();
+            //string txt = System.IO.File.ReadAllText(pathTxt);
             var md = Markdown.ParseFromUrl(pathMd);
 
-            model.ReamdeTxt = txt;
+            //model.ReamdeTxt = txt;
             model.ReamdeMd = md;
             return this.View("Overview", model);
         }
@@ -194,6 +207,7 @@
         public async Task<IActionResult> AddMember(string email, MemberStatus status)
         {
             var getProjectId = this.GetSelectedProjectId();
+
             if (!getProjectId.Success)
             {
                 return this.BadRequest();
@@ -264,6 +278,29 @@
             }
 
             return true;
+        }
+
+        public async Task<OperationResult> GetInfo(OverviewViewModel overviewViewModel, string projectId)
+        {
+            var operationResult = new OperationResult();
+            var workItemsCount = await this.projectOptionsService.GetWorkItemsCountByProjectId(projectId);
+            var completeWorkItemsCount = await this.projectOptionsService.GetCompletedWorkItemsCountByProjectId(projectId);
+            var createdNotesCount = await this.projectOptionsService.GetCreatedNoteItemsCountByProjectId(projectId);
+            var membersCount = await this.projectOptionsService.GetProjectMembersCountByProjectId(projectId);
+
+            if (workItemsCount.Success && completeWorkItemsCount.Success && createdNotesCount.Success && membersCount.Success)
+            {
+                overviewViewModel.WorkItemsCount = workItemsCount.RelatedObject;
+                overviewViewModel.CompletedWorkItemsCount = completeWorkItemsCount.RelatedObject;
+                overviewViewModel.CreatedNoteItemsCount = createdNotesCount.RelatedObject;
+                overviewViewModel.ProjectMembersCount = membersCount.RelatedObject;
+
+                return operationResult;
+            }
+
+            operationResult.Success = false;
+
+            return operationResult;
         }
     }
 }

@@ -12,6 +12,7 @@
             this.Id = Guid.NewGuid().ToString();
             this.Members = new HashSet<ProjectEmployee>();
             this.WorkItems = new HashSet<WorkItem>();
+            this.Notes = new HashSet<Note>();
         }
 
         public string Name { get; set; }
@@ -27,5 +28,7 @@
         public virtual ICollection<ProjectEmployee> Members { get; set; }
 
         public virtual ICollection<WorkItem> WorkItems { get; set; }
+
+        public virtual ICollection<Note> Notes { get; set; }
     }
 }

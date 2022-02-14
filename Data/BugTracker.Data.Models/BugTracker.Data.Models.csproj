@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BugTracker.Data.Enums\BugTracker.Data.Enums.csproj" />
     <ProjectReference Include="..\BugTracker.Data.Common\BugTracker.Data.Common.csproj" />
   </ItemGroup>
   
