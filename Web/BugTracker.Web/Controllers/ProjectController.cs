@@ -8,6 +8,7 @@
     using BugTracker.Data.Enums;
     using BugTracker.Services.Data;
     using BugTracker.Services.Data.Interfaces;
+    using BugTracker.Services.Messaging;
     using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,16 @@
     {
         private readonly IProjectService projectService;
         private readonly IMemoryCache memoryCache;
+        private readonly IEmailSender emailSender;
 
         public ProjectController(
             IProjectService projectService,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IEmailSender emailSender)
         {
             this.projectService = projectService ?? throw new ArgumentNullException(nameof(projectService));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            this.emailSender = emailSender;
         }
 
         [HttpGet]
