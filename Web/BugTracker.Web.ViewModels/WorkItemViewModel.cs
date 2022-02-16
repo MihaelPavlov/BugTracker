@@ -1,12 +1,15 @@
-﻿namespace BugTracker.Data.Models
+﻿namespace BugTracker.Web.ViewModels
 {
     using System;
 
-    using BugTracker.Data.Common.Models;
     using BugTracker.Data.Enums;
+    using BugTracker.Data.Models;
+    using BugTracker.Services.Mapping;
 
-    public class WorkItem : BaseDeletableModel<string>
+    public class WorkItemViewModel : IMapFrom<WorkItem>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string ProjectId { get; set; }
@@ -26,7 +29,5 @@
         public DateTime FinishDate { get; set; }
 
         public WorkItemStatus Status { get; set; }
-
-        public WorkItemType Type { get; set; }
     }
 }

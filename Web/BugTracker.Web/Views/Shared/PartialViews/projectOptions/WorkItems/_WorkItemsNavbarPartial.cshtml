@@ -1,4 +1,5 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+﻿@model WorkItemsNavbarViewModel
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-align-justify"></i>
@@ -53,4 +54,4 @@
 
 <partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_TableSettingsModalPartial.cshtml" />
 
-<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_CreateTaskModalPartial.cshtml" />
+<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_CreateTaskModalPartial.cshtml" model="@Model.EmployeeViewModels" />

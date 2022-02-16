@@ -1,8 +1,10 @@
 ﻿namespace BugTracker.Services.Data.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using BugTracker.Data.Utilities;
+    using BugTracker.Web.ViewModels;
 
     public interface IProjectOptionsService
     {
@@ -33,5 +35,14 @@
         /// <param name="projectId">A string representing the project Id.</param>
         /// <returns>A integer represent the count of the members for a particular project.</returns>
         Task<OperationResult<int>> GetProjectMembersCountByProjectId(string projectId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        Task<OperationResult<ICollection<EmployeeViewModel>>> GetAllEmployeeByProjectId(string projectId);
+
+        Task<OperationResult<ICollection<WorkItemViewModel>>> GetAllWorkItemsForProjectByProjectId(string projectId);
     }
 }

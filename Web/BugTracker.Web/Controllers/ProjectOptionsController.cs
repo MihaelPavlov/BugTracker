@@ -1,6 +1,7 @@
 ﻿namespace BugTracker.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -149,11 +150,23 @@
             return this.View("Overview", model);
         }
 
-        public IActionResult WorkItems()
+        public async Task<IActionResult> WorkItems()
         {
-            var test = this.memoryCache.Get("projetId");
+            var getMemoryCacheProjectId = this.GetSelectedProjectId();
 
-            return this.View();
+            if (!getMemoryCacheProjectId.Success)
+            {
+                return this.BadRequest();
+            }
+
+            var workItems = await this.projectOptionsService.GetAllWorkItemsForProjectByProjectId(getMemoryCacheProjectId.RelatedObject);
+            var employees = await this.projectOptionsService.GetAllEmployeeByProjectId(getMemoryCacheProjectId.RelatedObject);
+            var viewModel = new WorkItemsViewModel();
+            viewModel.WorkItemsViewModels = workItems.RelatedObject; // get work items
+            var workItemsNavabarViewModel = new WorkItemsNavbarViewModel();
+            workItemsNavabarViewModel.EmployeeViewModels = employees.RelatedObject;
+            viewModel.WorkItemsNavbarViewModel = workItemsNavabarViewModel;
+            return this.View(viewModel);
         }
 
         public IActionResult ShowTask(string taskId)

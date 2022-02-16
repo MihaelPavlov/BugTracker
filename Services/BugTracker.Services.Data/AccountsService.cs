@@ -1,6 +1,7 @@
 ﻿namespace BugTracker.Services.Data
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using BugTracker.Data.Common.Repositories;
@@ -53,6 +54,14 @@
                 };
 
                 var result = await this.userManager.CreateAsync(applicationUser, this.GeneratePassword(10));
+
+                if (!result.Succeeded)
+                {
+                    operationResult.AppendError(new Exception("duplicate emails.We have user with the same email!"));
+                    operationResult.Success = false;
+                    return operationResult;
+                }
+
                 await this.userManager.AddToRoleAsync(applicationUser, role);
 
                 var employee = new Employee

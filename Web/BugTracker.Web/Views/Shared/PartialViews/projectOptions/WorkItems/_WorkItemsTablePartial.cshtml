@@ -24,6 +24,7 @@
     list.Add("11");
 
 }
+@model WorkItemsViewModel
 <table id="example" class=" table table-hover q-table-open-task">
     <caption class="h6">
         <a class="q-caption-create-task dropdown-item btn" data-toggle="modal" data-target="#exampleModalCenter">
@@ -44,23 +45,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in list)
+        @foreach (var workItem in Model.WorkItemsViewModels)
         {
-        <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = item.ToString()}))'">
-            <td>New</td>
-            <th scope="row">@item.ToString()</th>
-            <td>the Bird</td>
-            <td>twitter</td>
-            <td></td>
-            <td></td>
-            <td>the Bird</td>
-            <td></td>
-            <td>twitter</td>
-            <td><a asp-controller="ProjectOptions" asp-action="ShowTask" asp-route-taskId="@item.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
-        </tr>
+            <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = workItem.Id.ToString()}))'">
+                <td>@workItem.Status</td>
+                <th scope="row">@workItem.Id</th>
+                <td>@workItem.Project</td>
+                <td>@workItem.Name</td>
+                <td></td>
+                <td></td>
+                <td>the Bird</td>
+                <td></td>
+                <td>twitter</td>
+                <td><a asp-controller="ProjectOptions" asp-action="ShowTask" asp-route-taskId="@workItem.Id.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
+            </tr>
         }
     </tbody>
 </table>
 
-<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_CreateTaskModalPartial.cshtml" />
+<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_CreateTaskModalPartial.cshtml" model="@Model.WorkItemsNavbarViewModel.EmployeeViewModels"/>
 

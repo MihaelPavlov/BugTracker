@@ -1,4 +1,5 @@
-﻿<!-- Modal -->
+﻿@model ICollection<EmployeeViewModel>
+<!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -40,32 +41,11 @@
                             <label for="inputAssign">Assign Task To</label>
                             <select id="inputAssign" class="form-control">
                                 <option value="" disabled selected>Assign to</option>
-                                <option>Hristo Ivanov</option>
-                                <option>Martin Garix</option>
-                                <option>Ed Sheeran</option>
-                                <option>Hristo Ivanov</option>
-                                <option>Ivan Ivanov</option>
-                                <option>Trifon Harizakiz</option>
+                                @foreach (var employee in Model)
+                                {
+                                    <option>@employee.UserEmail</option>
+                                }
                             </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputProject">Project</label>
-                            <select id="inputProject" class="form-control">
-                                <option value="" disabled selected>Select project</option>
-                                <option>CyberWars</option>
-                                <option>QunatumDMS</option>
-                                <option>RoundFight</option>
-                                <option>BugTracker</option>
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="gridCheck">
-                            <label class="form-check-label" for="gridCheck">
-                                Check me out
-                            </label>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> &nbsp; Create</button>

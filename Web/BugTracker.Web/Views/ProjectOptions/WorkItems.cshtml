@@ -2,9 +2,11 @@
     this.Layout = "ProjectNav";
 }
 
-<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_WorkItemsNavbarPartial.cshtml"/>
+@model WorkItemsViewModel
 
-<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_WorkItemsTablePartial.cshtml" />
+<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_WorkItemsNavbarPartial.cshtml" model="@Model.WorkItemsNavbarViewModel"/>
+
+<partial name="~/Views/Shared/PartialViews/projectOptions/WorkItems/_WorkItemsTablePartial.cshtml" model="@Model"/>
 
 @section CssFile{
     <link rel="stylesheet" href="/css/project/workItemsTasksTablePartial.css">
