@@ -66,15 +66,15 @@
 
                 //var apiKey = this.configuration["SendGrid:ApiKey"];
                 //var client = new SendGridClient(apiKey);
-                //var from = new EmailAddress("m.pavlov1405@gmail.com", "Example User");
+                //var from = new EmailAddress("rap4obg88@gmail.com", "Example User");
                 //var subject = "Sending with SendGrid is Fun";
-                //var to = new EmailAddress("rap4obg@abv.bg", "Example User");
+                //var to = new EmailAddress("m.pavlov1405@gmail.com", "Example User");
                 //var plainTextContent = "and easy to do anywhere, even with C#";
                 //var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
                 //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 //var response = await client.SendEmailAsync(msg);
 
-                await this.emailSender.SendEmailAsync("m.pavlov1405@gmail.com", "MPavlov", "stella.stoyanova@decathlon.com", project.Name, "<h1>You are hacked from misheto <3 HOHOHOHOH<h1>");
+                await this.emailSender.SendEmailAsync("rap4obg88@gmail.com", "BugTracker", "m.pavlov1405@gmail.com", $"New project is created - {project.Name}", "<h1>The new project email!<h1>");
 
                 await this.projectRepository.AddAsync(project);
                 await this.projectRepository.SaveChangesAsync();

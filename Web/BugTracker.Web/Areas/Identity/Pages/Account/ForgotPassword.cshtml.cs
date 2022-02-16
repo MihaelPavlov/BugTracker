@@ -6,9 +6,9 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Models;
+    using BugTracker.Services.Messaging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -56,10 +56,12 @@
                     values: new { area = "Identity", code },
                     protocol: this.Request.Scheme);
 
-                await this._emailSender.SendEmailAsync(
-                    this.Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                await this._emailSender.SendEmailAsync("rap4obg88@gmail.com", "BugTracker", this.Input.Email, "Reset Password", $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                //await this._emailSender.SendEmailAsync(
+                //    this.Input.Email,
+                //    "Reset Password",
+                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return this.RedirectToPage("./ForgotPasswordConfirmation");
             }

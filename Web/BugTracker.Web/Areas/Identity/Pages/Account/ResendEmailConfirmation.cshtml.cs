@@ -6,9 +6,9 @@
     using System.Threading.Tasks;
 
     using BugTracker.Data.Models;
+    using BugTracker.Services.Messaging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -61,10 +61,8 @@
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: this.Request.Scheme);
-            await this._emailSender.SendEmailAsync(
-                this.Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            await this._emailSender.SendEmailAsync("rap4obg88@gmail.com", "BugTracker", this.Input.Email, "Confirm your email", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             this.ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return this.Page();
