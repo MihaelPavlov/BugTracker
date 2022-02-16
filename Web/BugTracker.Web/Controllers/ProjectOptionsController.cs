@@ -159,14 +159,23 @@
                 return this.BadRequest();
             }
 
-            var workItems = await this.projectOptionsService.GetAllWorkItemsForProjectByProjectId(getMemoryCacheProjectId.RelatedObject);
-            var employees = await this.projectOptionsService.GetAllEmployeeByProjectId(getMemoryCacheProjectId.RelatedObject);
-            var viewModel = new WorkItemsViewModel();
-            viewModel.WorkItemsViewModels = workItems.RelatedObject; // get work items
-            var workItemsNavabarViewModel = new WorkItemsNavbarViewModel();
-            workItemsNavabarViewModel.EmployeeViewModels = employees.RelatedObject;
-            viewModel.WorkItemsNavbarViewModel = workItemsNavabarViewModel;
-            return this.View(viewModel);
+            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+            return this.View(getViewModel.RelatedObject);
+        }
+
+        public async Task<IActionResult> CreateWorkItem(string name , string assignEmployeeEmail)
+        {
+            var getMemoryCacheProjectId = this.GetSelectedProjectId();
+
+            if (!getMemoryCacheProjectId.Success)
+            {
+                return this.BadRequest();
+            }
+
+            await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject)
+            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
+            return this.View("WorkItems", getViewModel.RelatedObject);
         }
 
         public IActionResult ShowTask(string taskId)
@@ -293,6 +302,12 @@
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="overviewViewModel"></param>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<OperationResult> GetInfo(OverviewViewModel overviewViewModel, string projectId)
         {
             var operationResult = new OperationResult();
@@ -312,6 +327,30 @@
             }
 
             operationResult.Success = false;
+
+            return operationResult;
+        }
+
+        public async Task<OperationResult<WorkItemsViewModel>> GetWorkItemsViewModel(string projectId)
+        {
+            var operationResult = new OperationResult<WorkItemsViewModel>();
+
+            try
+            {
+                var workItems = await this.projectOptionsService.GetAllWorkItemsForProjectByProjectId(projectId);
+                var employees = await this.projectOptionsService.GetAllEmployeeByProjectId(projectId);
+                var viewModel = new WorkItemsViewModel();
+                viewModel.WorkItemsViewModels = workItems.RelatedObject; // get work items
+                var workItemsNavabarViewModel = new WorkItemsNavbarViewModel();
+                workItemsNavabarViewModel.EmployeeViewModels = employees.RelatedObject;
+                viewModel.WorkItemsNavbarViewModel = workItemsNavabarViewModel;
+
+                operationResult.RelatedObject = viewModel;
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
+            }
 
             return operationResult;
         }

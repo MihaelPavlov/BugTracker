@@ -136,5 +136,31 @@
 
             return operationResult;
         }
+
+        public async Task<OperationResult> CreateWorkItem(string projectId, string name, string createByEmployeeId, WorkItemType type, WorkItemStatus status = WorkItemStatus.New)
+        {
+            var operationResult = new OperationResult();
+
+            try
+            {
+                var newWorkItem = new WorkItem()
+                {
+                    Name = name,
+                    CreateByEmployeeId = createByEmployeeId,
+                    ProjectId = projectId,
+                    Status = status,
+                    Type = type,
+                };
+
+                await this.workItemRepository.AddAsync(newWorkItem);
+                await this.workItemRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
+            }
+
+            return operationResult;
+        }
     }
 }

@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" asp-controller="ProjectOptions" asp-action="CreateWorkItem">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputName">Name</label>
@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputProject">Type</label>
-                            <select id="inputProject" class="form-control">
+                            <select name="" id="inputProject" class="form-control">
                                 <option value="" disabled selected>Select type</option>
                                 <option>Task</option>
                                 <option>Bug</option>
@@ -43,7 +43,7 @@
                                 <option value="" disabled selected>Assign to</option>
                                 @foreach (var employee in Model)
                                 {
-                                    <option>@employee.UserEmail</option>
+                                    <option value="@employee.UserEmail">@employee.UserEmail</option>
                                 }
                             </select>
                         </div>

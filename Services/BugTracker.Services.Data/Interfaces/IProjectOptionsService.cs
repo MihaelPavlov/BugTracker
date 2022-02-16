@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using BugTracker.Data.Enums;
     using BugTracker.Data.Utilities;
     using BugTracker.Web.ViewModels;
 
@@ -37,12 +37,24 @@
         Task<OperationResult<int>> GetProjectMembersCountByProjectId(string projectId);
 
         /// <summary>
+        /// Use this method to get all employees in project by projectId.
+        /// </summary>
+        /// <param name="projectId">A string representing the project Id.</param>
+        /// <returns>A collection of viewModels <see cref="EmployeeViewModel"/>.</returns>
+        Task<OperationResult<ICollection<EmployeeViewModel>>> GetAllEmployeeByProjectId(string projectId);
+
+        /// <summary>
+        /// Use this method to get all work items for particular project by projectId.
+        /// </summary>
+        /// <param name="projectId">A string representing the project Id.</param>
+        /// <returns>A collection of viewModels <see cref="WorkItemViewModel"/>.</returns>
+        Task<OperationResult<ICollection<WorkItemViewModel>>> GetAllWorkItemsForProjectByProjectId(string projectId);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<OperationResult<ICollection<EmployeeViewModel>>> GetAllEmployeeByProjectId(string projectId);
-
-        Task<OperationResult<ICollection<WorkItemViewModel>>> GetAllWorkItemsForProjectByProjectId(string projectId);
+        Task<OperationResult> CreateWorkItem(string projectId, string name, string createByEmployeeId, WorkItemType type, WorkItemStatus status = WorkItemStatus.New);
     }
 }
