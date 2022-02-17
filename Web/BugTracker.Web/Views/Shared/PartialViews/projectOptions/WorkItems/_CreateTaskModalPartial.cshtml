@@ -1,4 +1,5 @@
-﻿@model ICollection<EmployeeViewModel>
+﻿@using BugTracker.Data.Enums 
+@model ICollection<EmployeeViewModel>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -14,32 +15,33 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputName">Name</label>
-                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                            <input type="text" name="workItemName" class="form-control" id="inputName" placeholder="Name">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputProject">Type</label>
-                            <select name="" id="inputProject" class="form-control">
+                            <select name="workItemType" id="inputProject" class="form-control">
                                 <option value="" disabled selected>Select type</option>
-                                <option>Task</option>
-                                <option>Bug</option>
-                                <option>Feature</option>
+                                @foreach (var type in Enum.GetValues(typeof(WorkItemType)))
+                                {
+                                <option value="@type">@type</option>
+                                }
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="inputStartDate">Start Date</label>
-                            <input type="date" class="form-control" id="inputStartDate" placeholder="00.00.0000">
+                            <label for="inputProject">Type</label>
+                            <select name="workItemStatus" id="inputProject" class="form-control">
+                                <option value="" disabled selected>Select type</option>
+                                @foreach (var status in Enum.GetValues(typeof(WorkItemStatus)))
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputFinishDate">Finish Date</label>
-                            <input type="date" class="form-control" id="inputFinishDate" placeholder="00.00.0000">
-                        </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputAssign">Assign Task To</label>
-                            <select id="inputAssign" class="form-control">
+                            <select name="assignToUserEmail" id="inputAssign" class="form-control">
                                 <option value="" disabled selected>Assign to</option>
                                 @foreach (var employee in Model)
                                 {

@@ -16,18 +16,22 @@
 
         public Project Project { get; set; }
 
-        public string CreateByEmployeeId { get; set; }
+        public string CreateByUserId { get; set; }
 
-        public Employee CreateByEmployee { get; set; }
+        public ApplicationUser CreateByUser { get; set; }
 
-        public string AssignToEmployeeId { get; set; }
+        public string AssignToUserId { get; set; }
 
-        public Employee AssignToEmployee { get; set; }
+        public ApplicationUser AssignToUser { get; set; }
 
         public DateTime LastActivity { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public DateTime FinishDate { get; set; }
 
         public WorkItemStatus Status { get; set; }
+
+        public WorkItemType Type { get; set; }
     }
 }

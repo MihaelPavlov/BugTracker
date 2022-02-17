@@ -7,19 +7,24 @@
 
     public class WorkItem : BaseDeletableModel<string>
     {
+        public WorkItem()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         public string Name { get; set; }
 
         public string ProjectId { get; set; }
 
         public Project Project { get; set; }
 
-        public string CreateByEmployeeId { get; set; }
+        public string CreateByUserId { get; set; }
 
-        public Employee CreateByEmployee { get; set; }
+        public ApplicationUser CreateByUser { get; set; }
 
-        public string AssignToEmployeeId { get; set; }
+        public string AssignToUserId { get; set; }
 
-        public Employee AssignToEmployee { get; set; }
+        public ApplicationUser AssignToUser { get; set; }
 
         public DateTime LastActivity { get; set; }
 

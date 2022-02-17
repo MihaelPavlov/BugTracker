@@ -48,15 +48,15 @@
         @foreach (var workItem in Model.WorkItemsViewModels)
         {
             <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = workItem.Id.ToString()}))'">
-                <td>@workItem.Status</td>
+                <td>@workItem.Type</td>
                 <th scope="row">@workItem.Id</th>
                 <td>@workItem.Project</td>
                 <td>@workItem.Name</td>
+                <td>@workItem.Status</td>
+                <td>@(workItem.AssignToUser == null ?workItem.AssignToUserId : workItem.AssignToUser.UserName)</td>
+                <td>@workItem.CreatedOn</td>
                 <td></td>
-                <td></td>
-                <td>the Bird</td>
-                <td></td>
-                <td>twitter</td>
+                <td>@(workItem.CreateByUser == null ? workItem.CreateByUserId : workItem.CreateByUser.UserName)</td>
                 <td><a asp-controller="ProjectOptions" asp-action="ShowTask" asp-route-taskId="@workItem.Id.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
             </tr>
         }

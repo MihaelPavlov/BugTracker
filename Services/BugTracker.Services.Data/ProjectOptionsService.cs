@@ -15,15 +15,18 @@
 
     public class ProjectOptionsService : IProjectOptionsService
     {
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
         private readonly IDeletableEntityRepository<WorkItem> workItemRepository;
         private readonly IDeletableEntityRepository<Note> noteRepository;
         private readonly IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository;
 
         public ProjectOptionsService(
+            IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IDeletableEntityRepository<WorkItem> workItemRepository,
             IDeletableEntityRepository<Note> noteRepository,
             IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository)
         {
+            this.applicationUserRepository = applicationUserRepository;
             this.workItemRepository = workItemRepository;
             this.noteRepository = noteRepository;
             this.projectEmployeeRepository = projectEmployeeRepository;
@@ -126,6 +129,13 @@
                     {
                         Name = x.Name,
                         Id = x.Id,
+                        CreatedOn = x.CreatedOn,
+                        Status = x.Status,
+                        Type = x.Type,
+                        CreateByUserId = x.CreateByUserId,
+                        CreateByUser = x.CreateByUser,
+                        AssignToUserId = x.AssignToUserId,
+                        AssignToUser = x.AssignToUser,
                     })
                     .ToListAsync();
             }
@@ -137,16 +147,18 @@
             return operationResult;
         }
 
-        public async Task<OperationResult> CreateWorkItem(string projectId, string name, string createByEmployeeId, WorkItemType type, WorkItemStatus status = WorkItemStatus.New)
+        public async Task<OperationResult> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type, WorkItemStatus status = WorkItemStatus.New)
         {
             var operationResult = new OperationResult();
 
             try
             {
+                var applicationUser = await this.applicationUserRepository.All().FirstOrDefaultAsync(x => x.UserName == assignToUserEmail);
                 var newWorkItem = new WorkItem()
                 {
                     Name = name,
-                    CreateByEmployeeId = createByEmployeeId,
+                    CreateByUserId = createByUserId,
+                    AssignToUserId = applicationUser.Id,
                     ProjectId = projectId,
                     Status = status,
                     Type = type,

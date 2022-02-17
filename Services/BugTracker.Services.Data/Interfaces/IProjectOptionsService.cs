@@ -55,6 +55,6 @@
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<OperationResult> CreateWorkItem(string projectId, string name, string createByEmployeeId, WorkItemType type, WorkItemStatus status = WorkItemStatus.New);
+        Task<OperationResult> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type, WorkItemStatus status = WorkItemStatus.New);
     }
 }

@@ -20,6 +20,7 @@
     public class ProjectOptionsController : Controller
     {
         private readonly IAccountsService accountsService;
+        private readonly IProjectService projectService;
         private readonly IProjectOptionsService projectOptionsService;
         private readonly IOwnerService ownerService;
         private readonly IMemoryCache memoryCache;
@@ -28,12 +29,14 @@
         public ProjectOptionsController(
             IWebHostEnvironment environment,
             IAccountsService accountsService,
+            IProjectService projectService,
             IProjectOptionsService projectOptionsService,
             IOwnerService ownerService,
             IMemoryCache memoryCache)
         {
             this.hostEnvironment = environment ?? throw new ArgumentNullException(nameof(environment));
             this.accountsService = accountsService ?? throw new ArgumentNullException(nameof(accountsService));
+            this.projectService = projectService ?? throw new ArgumentNullException(nameof(projectService));
             this.projectOptionsService = projectOptionsService ?? throw new ArgumentNullException(nameof(projectOptionsService));
             this.ownerService = ownerService ?? throw new ArgumentNullException(nameof(ownerService));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
@@ -163,7 +166,7 @@
             return this.View(getViewModel.RelatedObject);
         }
 
-        public async Task<IActionResult> CreateWorkItem(string name , string assignEmployeeEmail)
+        public async Task<IActionResult> CreateWorkItem(string workItemName, string assignToUserEmail, WorkItemType workItemType, WorkItemStatus workItemStatus)
         {
             var getMemoryCacheProjectId = this.GetSelectedProjectId();
 
@@ -172,7 +175,11 @@
                 return this.BadRequest();
             }
 
-            await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject)
+            var createByUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            var result = await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject, workItemName, createByUserId,assignToUserEmail,workItemType, workItemStatus);
+
             var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
 
             return this.View("WorkItems", getViewModel.RelatedObject);
