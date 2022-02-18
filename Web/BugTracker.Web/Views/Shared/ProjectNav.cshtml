@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/cssUtilities.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/projectNav.css" asp-append-version="true" />
@@ -24,7 +23,7 @@
                     <a class="q-nav-link" asp-controller="ProjectOptions" asp-action="Overview">&nbsp; <i class="fas fa-exclamation-circle f-right"></i> &nbsp;  Overview</a>
                 </li>
                 <li>
-                    <a class="q-nav-link" asp-controller="ProjectOptions" asp-action="WorkItems">&nbsp; <i class="far fa-folder-open"></i>&nbsp; Work items</a>
+                    <a class="q-nav-link" asp-controller="ProjectOptions" asp-action="WorkItems">&nbsp; <i class="fa-solid fa-folder-open"></i>&nbsp; Work items</a>
                 </li>
                 <li>
                 <li>
@@ -51,7 +50,7 @@
             @this.RenderBody()
         </div>
     </div>
-
+    <script src="https://kit.fontawesome.com/c731f1769b.js" crossorigin="anonymous" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>

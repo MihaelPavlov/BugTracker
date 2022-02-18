@@ -25,6 +25,7 @@
         private readonly IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository;
         private readonly IDeletableEntityRepository<Owner> ownerRepository;
         private readonly IDeletableEntityRepository<Employee> employeeRepository;
+        private readonly IDeletableEntityRepository<WorkItem> workItemRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
         private readonly IEmailSender emailSender;
         private readonly IConfiguration configuration;
@@ -34,6 +35,7 @@
             IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository,
             IDeletableEntityRepository<Owner> ownerRepository,
             IDeletableEntityRepository<Employee> employeeRepository,
+            IDeletableEntityRepository<WorkItem> workItemRepository,
             IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IEmailSender emailSender,
             IConfiguration configuration)
@@ -42,6 +44,7 @@
             this.projectEmployeeRepository = projectEmployeeRepository ?? throw new ArgumentNullException(nameof(projectEmployeeRepository));
             this.ownerRepository = ownerRepository ?? throw new ArgumentNullException(nameof(ownerRepository));
             this.employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            this.workItemRepository = workItemRepository ?? throw new ArgumentNullException(nameof(workItemRepository));
             this.applicationUserRepository = applicationUserRepository ?? throw new ArgumentNullException(nameof(applicationUserRepository));
             this.emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             this.configuration = configuration;
@@ -106,9 +109,15 @@
                     OwnerId = x.Project.OwnerId,
                     CompletedTask = x.Project.WorkItems.Count(),
                     Members = x.Project.Members,
-                    WorkItems = x.Project.WorkItems,
                 })
                 .ToListAsync();
+
+                foreach (var project in operationResult.RelatedObject)
+                {
+                    project.WorkItems = await this.workItemRepository.All().Where(x => x.ProjectId == project.Id).ToListAsync();
+                    var completedWorkItems = await this.workItemRepository.All().Where(x => x.ProjectId == project.Id && x.Status == BugTracker.Data.Enums.WorkItemStatus.Closed).ToListAsync();
+                    project.CompletedTask = completedWorkItems.Count();
+                }
             }
             catch (Exception ex)
             {
@@ -130,6 +139,13 @@
                     .Where(x => x.OwnerId == ownerId)
                     .To<ProjectViewModel>()
                     .ToListAsync();
+
+                foreach (var project in operationResult.RelatedObject)
+                {
+                    project.WorkItems = await this.workItemRepository.All().Where(x => x.ProjectId == project.Id).ToListAsync();
+                    var completedWorkItems = await this.workItemRepository.All().Where(x => x.ProjectId == project.Id && x.Status == BugTracker.Data.Enums.WorkItemStatus.Closed).ToListAsync();
+                    project.CompletedTask = completedWorkItems.Count();
+                }
             }
             catch (Exception ex)
             {

@@ -163,6 +163,12 @@
             }
 
             var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
+            if (!getViewModel.Success)
+            {
+                return this.BadRequest();
+            }
+
             return this.View(getViewModel.RelatedObject);
         }
 
@@ -177,10 +183,19 @@
 
             var createByUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-
-            var result = await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject, workItemName, createByUserId,assignToUserEmail,workItemType, workItemStatus);
+            var operationResult = await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject, workItemName, createByUserId, assignToUserEmail, workItemType, workItemStatus);
 
             var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
+            if (!operationResult.Success)
+            {
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, operationResult.InitialException.Message);
+            }
+
+            if (!getViewModel.Success)
+            {
+                return this.BadRequest();
+            }
 
             return this.View("WorkItems", getViewModel.RelatedObject);
         }

@@ -7,8 +7,10 @@
     using BugTracker.Data.Models;
     using BugTracker.Services.Mapping;
 
-    public class EmployeeViewModel : IMapFrom<Employee>
+    public class EmployeeViewModel : IMapFrom<Employee>, IMapFrom<Owner>
     {
         public string UserEmail { get; set; }
+
+        public string OwnerEmail { get; set; }
     }
 }

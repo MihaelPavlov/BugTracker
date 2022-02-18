@@ -19,17 +19,20 @@
         private readonly IDeletableEntityRepository<WorkItem> workItemRepository;
         private readonly IDeletableEntityRepository<Note> noteRepository;
         private readonly IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository;
+        private readonly IDeletableEntityRepository<Owner> ownerRepository;
 
         public ProjectOptionsService(
             IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IDeletableEntityRepository<WorkItem> workItemRepository,
             IDeletableEntityRepository<Note> noteRepository,
-            IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository)
+            IDeletableEntityRepository<ProjectEmployee> projectEmployeeRepository,
+            IDeletableEntityRepository<Owner> ownerRepository)
         {
             this.applicationUserRepository = applicationUserRepository;
             this.workItemRepository = workItemRepository;
             this.noteRepository = noteRepository;
             this.projectEmployeeRepository = projectEmployeeRepository;
+            this.ownerRepository = ownerRepository;
         }
 
         /// <inheritdoc />
@@ -104,11 +107,14 @@
                 operationResult.RelatedObject = await this.projectEmployeeRepository.All()
                     .Where(x => x.ProjectId == projectId)
                     .Include("Employee.User")
+                    .Include("Project.Owner.User")
                     .Select(x => new EmployeeViewModel
                     {
                         UserEmail = x.Employee.User.UserName,
+                        OwnerEmail = x.Project.Owner.User.UserName,
                     })
                     .ToListAsync();
+
             }
             catch (Exception ex)
             {
@@ -129,6 +135,7 @@
                     {
                         Name = x.Name,
                         Id = x.Id,
+                        Project = x.Project,
                         CreatedOn = x.CreatedOn,
                         Status = x.Status,
                         Type = x.Type,
@@ -158,11 +165,15 @@
                 {
                     Name = name,
                     CreateByUserId = createByUserId,
-                    AssignToUserId = applicationUser.Id,
                     ProjectId = projectId,
                     Status = status,
                     Type = type,
                 };
+
+                if (applicationUser != null)
+                {
+                    newWorkItem.AssignToUserId = applicationUser.Id;
+                }
 
                 await this.workItemRepository.AddAsync(newWorkItem);
                 await this.workItemRepository.SaveChangesAsync();
