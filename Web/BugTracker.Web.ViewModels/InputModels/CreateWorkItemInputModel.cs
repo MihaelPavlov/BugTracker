@@ -4,6 +4,7 @@
 
     using BugTracker.Data.Enums;
     using BugTracker.Data.Models;
+    using BugTracker.Web.Infrastructure;
 
     public class CreateWorkItemInputModel
     {
@@ -12,9 +13,9 @@
         [MinLength(3, ErrorMessage = "Project Name should be min 3 characters.")]
         public string Name { get; set; }
 
-        [Required]
-        public WorkItemStatus Status { get; set; }
+        [RequiredEnumFieldAttribute(ErrorMessage = "Type is required!")]
+        public WorkItemType Type { get; set; }
 
-        public Employee AssignToEmployee { get; set; }
+        public string UserEmail { get; set; }
     }
 }

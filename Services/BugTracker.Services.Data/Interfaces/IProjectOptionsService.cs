@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using BugTracker.Data.Enums;
     using BugTracker.Data.Utilities;
     using BugTracker.Web.ViewModels;
@@ -51,10 +52,14 @@
         Task<OperationResult<ICollection<WorkItemViewModel>>> GetAllWorkItemsForProjectByProjectId(string projectId);
 
         /// <summary>
-        /// 
+        /// Use this method to create new work item.
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
-        Task<OperationResult> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type, WorkItemStatus status = WorkItemStatus.New);
+        /// <param name="projectId">A string representing the project Id.</param>
+        /// <param name="name">A string representing the work item name.</param>
+        /// <param name="createByUserId">A string representing the user Id who create the work item.</param>
+        /// <param name="assignToUserEmail">A string representing the email of the user who get the work item.</param>
+        /// <param name="type">A enum representing the type of the work item.</param>
+        /// <returns>A string representing the Id of the new created work item.</returns>
+        Task<OperationResult<string>> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type);
     }
 }

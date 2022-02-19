@@ -99,6 +99,7 @@
             return operationResult;
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult<ICollection<EmployeeViewModel>>> GetAllEmployeeByProjectId(string projectId)
         {
             var operationResult = new OperationResult<ICollection<EmployeeViewModel>>();
@@ -124,6 +125,7 @@
             return operationResult;
         }
 
+        /// <inheritdoc />
         public async Task<OperationResult<ICollection<WorkItemViewModel>>> GetAllWorkItemsForProjectByProjectId(string projectId)
         {
             var operationResult = new OperationResult<ICollection<WorkItemViewModel>>();
@@ -154,19 +156,21 @@
             return operationResult;
         }
 
-        public async Task<OperationResult> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type, WorkItemStatus status = WorkItemStatus.New)
+        /// <inheritdoc />
+        public async Task<OperationResult<string>> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type)
         {
-            var operationResult = new OperationResult();
+            var operationResult = new OperationResult<string>();
 
             try
             {
                 var applicationUser = await this.applicationUserRepository.All().FirstOrDefaultAsync(x => x.UserName == assignToUserEmail);
+
                 var newWorkItem = new WorkItem()
                 {
                     Name = name,
                     CreateByUserId = createByUserId,
                     ProjectId = projectId,
-                    Status = status,
+                    Status = WorkItemStatus.New,
                     Type = type,
                 };
 
@@ -177,6 +181,8 @@
 
                 await this.workItemRepository.AddAsync(newWorkItem);
                 await this.workItemRepository.SaveChangesAsync();
+
+                operationResult.RelatedObject = newWorkItem.Id;
             }
             catch (Exception ex)
             {

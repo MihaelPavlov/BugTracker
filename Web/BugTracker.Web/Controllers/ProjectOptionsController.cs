@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@
     using BugTracker.Services.Data;
     using BugTracker.Services.Data.Interfaces;
     using BugTracker.Web.ViewModels;
+    using BugTracker.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -172,7 +174,7 @@
             return this.View(getViewModel.RelatedObject);
         }
 
-        public async Task<IActionResult> CreateWorkItem(string workItemName, string assignToUserEmail, WorkItemType workItemType, WorkItemStatus workItemStatus)
+        public async Task<IActionResult> CreateWorkItem([Bind] CreateWorkItemInputModel createWorkItemInputModel/*string workItemName, string assignToUserEmail, WorkItemType workItemType*/)
         {
             var getMemoryCacheProjectId = this.GetSelectedProjectId();
 
@@ -181,11 +183,17 @@
                 return this.BadRequest();
             }
 
+            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
+            if (!this.ModelState.IsValid)
+            {
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, this.ModelState.Values.FirstOrDefault(x => x.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid).Errors.FirstOrDefault().ErrorMessage);
+                return this.View("WorkItems", getViewModel.RelatedObject);
+            }
+
             var createByUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var operationResult = await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject, workItemName, createByUserId, assignToUserEmail, workItemType, workItemStatus);
-
-            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+            var operationResult = await this.projectOptionsService.CreateWorkItem(getMemoryCacheProjectId.RelatedObject, createWorkItemInputModel.Name, createByUserId, createWorkItemInputModel.UserEmail, createWorkItemInputModel.Type);
 
             if (!operationResult.Success)
             {
@@ -200,7 +208,7 @@
             return this.View("WorkItems", getViewModel.RelatedObject);
         }
 
-        public IActionResult ShowTask(string taskId)
+        public IActionResult ShowWorkItem(string taskId)
         {
             var test = this.memoryCache.Get("projetId");
 

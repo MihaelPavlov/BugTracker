@@ -47,7 +47,7 @@
     <tbody>
         @foreach (var workItem in Model.WorkItemsViewModels)
         {
-            <tr onclick="location.href = '@(Url.Action("ShowTask", "ProjectOptions",new {taskId = workItem.Id.ToString()}))'">
+            <tr onclick="location.href = '@(Url.Action("ShowWorkItem", "ProjectOptions",new {taskId = workItem.Id.ToString()}))'">
                 @if (workItem.Type == BugTracker.Data.Enums.WorkItemType.Bug)
                 {
                     <td><i class="fa-solid fa-bug "></i> @workItem.Type</td>
@@ -68,7 +68,7 @@
                 <td>@workItem.CreatedOn</td>
                 <td>@(workItem.FinishDate == default(DateTime) ? "Not set" : workItem.FinishDate)</td>
                 <td>@(workItem.CreateByUser == null ? workItem.CreateByUserId : workItem.CreateByUser.UserName)</td>
-                <td><a asp-controller="ProjectOptions" asp-action="ShowTask" asp-route-taskId="@workItem.Id.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
+                <td><a asp-controller="ProjectOptions" asp-action="ShowWorkItem" asp-route-taskId="@workItem.Id.ToString()" class="q-caption-create-task"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/Remove" class="q-caption-create-task"><i class="fas fa-trash"></i></a></td>
             </tr>
         }
     </tbody>
