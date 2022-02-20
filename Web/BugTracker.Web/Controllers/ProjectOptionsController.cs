@@ -183,12 +183,12 @@
                 return this.BadRequest();
             }
 
-            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
-
             if (!this.ModelState.IsValid)
             {
+                var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
                 this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, this.ModelState.Values.FirstOrDefault(x => x.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid).Errors.FirstOrDefault().ErrorMessage);
-                return this.View("WorkItems", getViewModel.RelatedObject);
+                return this.View("WorkItems" , getViewModel.RelatedObject);
             }
 
             var createByUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -197,15 +197,14 @@
 
             if (!operationResult.Success)
             {
+                var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
                 this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, operationResult.InitialException.Message);
+
+                return this.View("WorkItems", getViewModel.RelatedObject);
             }
 
-            if (!getViewModel.Success)
-            {
-                return this.BadRequest();
-            }
-
-            return this.View("WorkItems", getViewModel.RelatedObject);
+            return this.RedirectToAction("WorkItems");
         }
 
         public async Task<IActionResult> DeleteWorkItem(string workItemId)
@@ -230,12 +229,12 @@
             {
                 this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Warning, $"Unsuccessfully delete a work item -> {workItemId}");
 
-                return this.View("WorkItems", getViewModel.RelatedObject);
+                return this.RedirectToAction("WorkItems");
             }
 
             this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Success, $"Successfully delete a work item -> {workItemId}");
 
-            return this.View("WorkItems", getViewModel.RelatedObject);
+            return this.RedirectToAction("WorkItems");
 
         }
 
