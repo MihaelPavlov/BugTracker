@@ -208,11 +208,42 @@
             return this.View("WorkItems", getViewModel.RelatedObject);
         }
 
-        public IActionResult ShowWorkItem(string taskId)
+        public async Task<IActionResult> DeleteWorkItem(string workItemId)
+        {
+            var getMemoryCacheProjectId = this.GetSelectedProjectId();
+
+            if (!getMemoryCacheProjectId.Success)
+            {
+                return this.BadRequest();
+            }
+
+            var operationResult = await this.projectOptionsService.DeleteWorkItem(getMemoryCacheProjectId.RelatedObject, workItemId);
+
+            var getViewModel = await this.GetWorkItemsViewModel(getMemoryCacheProjectId.RelatedObject);
+
+            if (!getViewModel.Success)
+            {
+                return this.BadRequest();
+            }
+
+            if (!operationResult.Success)
+            {
+                this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Warning, $"Unsuccessfully delete a work item -> {workItemId}");
+
+                return this.View("WorkItems", getViewModel.RelatedObject);
+            }
+
+            this.ViewBag.Alert = AlertService.ShowAlert(Alerts.Success, $"Successfully delete a work item -> {workItemId}");
+
+            return this.View("WorkItems", getViewModel.RelatedObject);
+
+        }
+
+        public IActionResult EditWorkItem(string workItemId)
         {
             var test = this.memoryCache.Get("projetId");
 
-            object model = taskId;
+            object model = workItemId;
             return this.View(model);
         }
 

@@ -61,5 +61,13 @@
         /// <param name="type">A enum representing the type of the work item.</param>
         /// <returns>A string representing the Id of the new created work item.</returns>
         Task<OperationResult<string>> CreateWorkItem(string projectId, string name, string createByUserId, string assignToUserEmail, WorkItemType type);
+
+        /// <summary>
+        /// Use this method to delete work item by project Id.
+        /// </summary>
+        /// <param name="projectId">A string representing the project Id.</param>
+        /// <param name="workItemId">A string representing the work item Id that we want to delete.</param>
+        /// <returns>A operation result <see cref="OperationResult"/>.</returns>
+        Task<OperationResult> DeleteWorkItem(string projectId, string workItemId);
     }
 }

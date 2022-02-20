@@ -191,5 +191,26 @@
 
             return operationResult;
         }
+
+        /// <inheritdoc />
+        public async Task<OperationResult> DeleteWorkItem(string projectId, string workItemId)
+        {
+            var operationResult = new OperationResult();
+
+            try
+            {
+                var workItem = await this.workItemRepository.All().FirstOrDefaultAsync(x => x.Id == workItemId && x.ProjectId == projectId);
+
+                this.workItemRepository.Delete(workItem);
+
+                await this.workItemRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                operationResult.AppendError(ex);
+            }
+
+            return operationResult;
+        }
     }
 }
